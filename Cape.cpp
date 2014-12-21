@@ -11,7 +11,7 @@
    true if you want to compute the string with initialization vector */
 
 Cape::Cape(char *encryption_key, uint8_t strength, boolean initialization_vector) {
-  _initialization_verctor = initialization_vector;
+  _initialization_vector = initialization_vector;
   _encryption_key = encryption_key;
   _encryption_strength = strength;
 }

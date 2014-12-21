@@ -24,11 +24,15 @@ class Cape {
 
     Cape(char *encryption_key, uint8_t strength, boolean initialization_vector = false);
     void crypt(char *data, boolean initialization_vector = false, boolean side = false);
+    void encrypt(char *data);
+    void decrypt(char *data);
+
     uint8_t generate_IV(uint8_t string_length);
-    char result[max_package_length];
+    char result[max_length];
 
   private:
-    uint8_t _encryption_key;
+    char * _encryption_key;
     uint8_t _encryption_strength;
-    unsigned char _s_box[_encryption_strength];
+    boolean _initialization_vector;
+    unsigned char _s_box[255];
 };
