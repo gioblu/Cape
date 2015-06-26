@@ -17,11 +17,11 @@ Cape::Cape(char *encryption_key, uint8_t strength, boolean initialization_vector
 }
 
 void Cape::encrypt(char *data) {
-  this->crypt(data, true, 0);
+  this->crypt(data, _initialization_vector, 0);
 }
 
 void Cape::decrypt(char *data) {
-  this->crypt(data, true, 1);
+  this->crypt(data, _initialization_vector, 1);
 }
 
 /* This crypting algorithm is inspired to the RC4 standard with the addition
