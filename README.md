@@ -12,7 +12,7 @@ but if you want an additional layer of security:
 ```cpp  
   Cape cape("YOUR-ENCRYPTION-KEY", true); 
 ```
-To use the library simply call cape.encrypt passing the string you want to crypt:
+To encryt a string:
 ```cpp  
   cape.encrypt("CRYPTMEPLEASE"); 
 ```
