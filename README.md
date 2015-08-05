@@ -14,7 +14,7 @@ but if you want an additional layer of security:
 ```
 To use the library simply call cape.encrypt passing the string you want to crypt:
 ```cpp  
-  cape.crypt("CRYPTMEPLEASE"); 
+  cape.encrypt("CRYPTMEPLEASE"); 
 ```
 inside cape.result you find the crypted version of your string
 ```cpp  
