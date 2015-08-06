@@ -4,7 +4,7 @@ This is an arduino compatible string encryption library. I wrote this to add enc
 
 Cape use an algorithm inspired by the RC4 standard with the addition of 1 byte initialization vector and tunable encryption_strength; all this is reversible, so two entities with the same key can share encrypted data and come back to original content without any other procedure. Without initialization_vector, crypting the string multiple times will give you always the same encrypted result, that is generally considered as really bad.
 
-For many application can fit without initialization_vector:
+For many applications can fit without initialization_vector:
 ```cpp  
   Cape cape("YOUR-ENCRYPTION-KEY"); 
 ```
