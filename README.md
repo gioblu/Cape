@@ -8,7 +8,7 @@ For many applications can fit without initialization_vector, the second paramete
 ```cpp  
   Cape cape("YOUR-ENCRYPTION-KEY", 2); 
 ```
-but if you want an additional layer of security:
+but if you want an additional layer of security using initialization_vector pass true as third parameter:
 ```cpp  
   Cape cape("YOUR-ENCRYPTION-KEY", 2, true); 
 ```
