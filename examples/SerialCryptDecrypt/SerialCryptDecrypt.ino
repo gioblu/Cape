@@ -1,6 +1,6 @@
 #include <Cape.h>
 
-Cape cape("Hello world!", 2, true);
+Cape cape("YOUR-PRIVATE-KEY", 2, true);
 
 void setup() {
   // put your setup code here, to run once:
