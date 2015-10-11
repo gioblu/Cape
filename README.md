@@ -23,7 +23,7 @@ Inside cape.result you find the crypted version of your string
 ```
 If you want to come back from the encrypted data to the original string:
 ```cpp  
-    cape.decrypt((*char)cape.result, 13);
+    cape.decrypt(cape.result, 13);
 ```
 and print the original string as before to check all is working and to get back "CRYPTMEPLEASE" string:
 ```cpp  
