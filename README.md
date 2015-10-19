@@ -30,6 +30,9 @@ and print the original string as before to check all is working and to get back 
   for(uint8_t i = 0; i < 13; i++)
     Serial.print(cape.result[i]);
 ```
+
+---
+
 Copyright (c) 2012-2015, Giovanni Blu Mitolo
 All rights reserved.
 
