@@ -1,4 +1,4 @@
-Cape 
+Cape 1.0 Stable
 ====
 This is an arduino compatible string encryption library. I wrote this to add encryption feature to [PJON](https://github.com/gioblu/PJON) communications bus system. It is really easy to use but limited by the computational power of the ATmega chip.
 
