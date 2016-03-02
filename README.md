@@ -36,7 +36,7 @@ and print the original string as before to check all is working and to get back 
 ###License
 
 ```cpp  
-/* Copyright (c) 2012-2016, Giovanni Blu Mitolo All rights reserved.
+/* Cape Copyright (c) 2012-2016, Giovanni Blu Mitolo All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
