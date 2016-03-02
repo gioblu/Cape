@@ -31,8 +31,6 @@ and print the original string as before to check all is working and to get back 
     Serial.print(cape.result[i]);
 ```
 
----
-
 ###License
 
 ```cpp  
