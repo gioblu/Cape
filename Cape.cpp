@@ -66,17 +66,13 @@ void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, bool
     for(i = 0; i < length; i++)
       data[i] ^= data[length - 1];
 
-  for (i = 0; i < _encryption_strength; i++) {
-    _s_box[i] = 0;
-    j = (j + _s_box[i] + _encryption_key[i % key_length]) % MAX_LENGTH;
-    swap(_s_box[i], _s_box[j]);
-  }
+  for (i = 0; i < _encryption_strength; i++)
+    swap(_s_box[i], _s_box[(j + _encryption_key[i % key_length]) % MAX_LENGTH]);
 
   i = j = 0;
   for (uint8_t k = 0; k < length; k++) {
     i++;
-    j = (j + _s_box[i]);
-    swap(_s_box[i], _s_box[j]);
+    swap(_s_box[i], _s_box[j + _s_box[i]]);
     result[k] = data[k] ^ _s_box[(_s_box[i] + _s_box[j])];
   }
 
@@ -85,7 +81,6 @@ void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, bool
     for(i = 0; i < length; i++)
       result[i] ^= result[length];
   }
-
 }
 
 uint8_t Cape::generate_IV() {
