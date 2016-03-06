@@ -1,10 +1,10 @@
 #include <Cape.h>
 
-Cape cape("YOUR-ENCRYPTION-KEY", 50, true);
+Cape cape("YOUR-ENCRYPTION-KEY", 50);
 
 void setup() {
-  cape.set_initialization_vector(true);
   Serial.begin(115200);
+  cape.set_initialization_vector(true);
 }
 
 void loop() {
@@ -13,12 +13,11 @@ void loop() {
   time = micros() - time;
 
   Serial.println("------------------");
-  Serial.print("CRIPTED: ");
-  for(int i = 0; i < 13; i++)
+  Serial.print("CRIPTED:  ");
+  for(int i = 0; i < 12; i++)
     Serial.print(cape.result[i]);
 
-  Serial.println();
-  Serial.print("Computation time: ");
+  Serial.print(" Computation time: ");
   Serial.print(time);
   Serial.println(" microseconds");
 
@@ -27,11 +26,10 @@ void loop() {
   time = micros() - time;
 
   Serial.print("ORIGINAL: ");
-  for(int i = 0; i < 13; i++)
+  for(int i = 0; i < 12; i++)
     Serial.print(cape.result[i]);
 
-  Serial.println();
-  Serial.print("Computation time: ");
+  Serial.print(" Computation time: ");
   Serial.print(time);
   Serial.println(" microseconds");
 

@@ -1,10 +1,10 @@
 Cape 1.0 Stable
 ====
-This is an arduino compatible string encryption library. I started working on this to add encryption to [PJON](https://github.com/gioblu/PJON) communications bus system. It is really easy to use but limited by the computational power of the ATmega chip.
+This is an arduino compatible string encryption library. I started working on this to add encryption to [PJON](https://github.com/gioblu/PJON) communications bus system. It is really easy to use but limited by the computational power of the ATmega chip. I am now working to bring this compatible with ESP8266 and other Arduino compatible boards.
 
 Cape uses a private key, an iteration tunable stream chipher algorithm and an optional initialization vector.
 
-Instantiate Cape passing as first parameter the encryption key, and as second, the number of iterations you want to perform, that is a value from 1 to 32767 (int limit). `MAX_LENGTH` constant in `Cape.h` limits maximum string length, rise to an higher value if necessary, not over 255 or will not work. Consider that a long encryption key and / or a lot of iterations, leads to a longer computation time:
+Instantiate Cape passing as first parameter the encryption key, and as second, the number of iterations you want to perform, that is a value from 1 to 32767 (`int` limit). `MAX_LENGTH` constant in `Cape.h` limits maximum string length, rise to an higher value if necessary, not over 255 or will not work. Consider that a long encryption key and / or a lot of iterations, leads to a longer computation time:
 ```cpp  
   Cape cape("YOUR-ENCRYPTION-KEY", 2);
 ```
@@ -34,7 +34,13 @@ and print the original string as before to check all is working and to get back 
 ###License
 
 ```cpp  
-/* Cape Copyright (c) 2012-2016, Giovanni Blu Mitolo All rights reserved.
+/*  _____  _____   _____   _____
+   |      |     | |     | |
+   |      |_____| |_____| |_____
+   |      |     | |       |
+   |_____ |     | |       |_____  version 1.1
+
+Cape Copyright (c) 2012-2016, Giovanni Blu Mitolo All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
@@ -47,11 +53,11 @@ modification, are permitted provided that the following conditions are met:
 
 -  All advertising materials mentioning features or use of this software
    must display the following acknowledgement:
-   This product includes Cape developed by Giovanni Blu Mitolo.
+   "Secured by Cape encryption, Giovanni Blu Mitolo 2012-2016"
 
--  Neither the name of the <organization> nor the
-   names of its contributors may be used to endorse or promote products
-   derived from this software without specific prior written permission.
+-  Neither the name of Cape nor the names of its contributors
+   may be used to endorse or promote products derived from
+   this software without specific prior written permission.
 
 This software is provided by the copyright holders and contributors "as is"
 and any express or implied warranties, including, but not limited to, the

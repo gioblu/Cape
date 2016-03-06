@@ -2,7 +2,7 @@
    |      |     | |     | |
    |      |_____| |_____| |_____
    |      |     | |       |
-   |_____ |     | |       |_____  version 1.0
+   |_____ |     | |       |_____  version 1.1
 
 Cape Copyright (c) 2012-2016, Giovanni Blu Mitolo All rights reserved.
 
@@ -17,11 +17,11 @@ modification, are permitted provided that the following conditions are met:
 
 -  All advertising materials mentioning features or use of this software
    must display the following acknowledgement:
-   This product includes Cape developed by Giovanni Blu Mitolo.
+   "Secured by Cape encryption, Giovanni Blu Mitolo 2012-2016"
 
--  Neither the name of the <organization> nor the
-   names of its contributors may be used to endorse or promote products
-   derived from this software without specific prior written permission.
+-  Neither the name of Cape nor the names of its contributors
+   may be used to endorse or promote products derived from
+   this software without specific prior written permission.
 
 This software is provided by the copyright holders and contributors "as is"
 and any express or implied warranties, including, but not limited to, the
@@ -45,7 +45,7 @@ of this software, even if advised of the possibility of such damage. */
 
 class Cape {
   public:
-    Cape(char *encryption_key, uint8_t iterations);
+    Cape(char *key, uint8_t iterations);
     void crypt(char *data, uint8_t length, boolean initialization_vector = false, boolean side = false);
     void encrypt(char *data, uint8_t length);
     void decrypt(char *data, uint8_t length);
@@ -54,7 +54,8 @@ class Cape {
 
     char result[MAX_LENGTH];
   private:
-    char * _encryption_key;
+    char * _key;
+    char _reduced_key;
     uint8_t _iterations;
     boolean _iv;
     unsigned char _s_box[MAX_LENGTH];
