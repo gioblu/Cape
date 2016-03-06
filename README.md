@@ -6,11 +6,12 @@ Cape uses a private key, an iteration tunable stream chipher algorithm and an op
 
 Instantiate Cape passing as first parameter the encryption key, and as second, the number of iterations you want to perform, that is a value from 1 to 32767 (`int` limit). `MAX_LENGTH` constant in `Cape.h` limits maximum string length, rise to an higher value if necessary, not over 255 or will not work. Consider that a long encryption key and / or a lot of iterations, leads to a longer computation time:
 ```cpp  
-  Cape cape("YOUR-ENCRYPTION-KEY", 2);
+  Cape cape("YOUR-ENCRYPTION-KEY");
 ```
-If you want an additional layer of security with `initialization_vector` use its setter:
+If you want an additional layer of security with `initialization_vector` and procedure iteration
+pass as second parameter the number of iterations you want to perform:
 ```cpp  
-  cape.set_initialization_vector(true);
+  Cape cape("YOUR-ENCRYPTION-KEY");
 ```
 To encrypt a string:
 ```cpp  
