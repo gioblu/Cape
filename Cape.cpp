@@ -36,42 +36,45 @@ of this software, even if advised of the possibility of such damage. */
 
 #include "Cape.h"
 
-/* Initiate Cape passing a random string (maximum 255 characters), a number from
-   0 to 255 that determines the encryption strength (and computation time) and
-   true if you want to compute the string with initialization vector */
+/* Initiate Cape passing a random string (maximum 255 characters), the number
+   of hashing iterations you want to perform (max 32767) */
 
-Cape::Cape(char *encryption_key, uint8_t strength, boolean initialization_vector) {
-  _iv = initialization_vector;
+Cape::Cape(char *encryption_key, uint8_t iterations) {
   _encryption_key = encryption_key;
-  _encryption_strength = strength;
+  _iterations = iterations;
 }
+
+
+void Cape::set_initialization_vector(boolean iv) {
+  _iv = iv;
+}
+
 
 void Cape::encrypt(char *data, uint8_t length) {
-  this->crypt(data, length, _iv, 0);
+  for(int i = 0; i < _iterations; i++)
+    this->crypt(data, length, (i == _iterations - 1) ? true : false, 0);
 }
+
 
 void Cape::decrypt(char *data, uint8_t length) {
-  if(_iv) length++;
-  this->crypt(data, length, _iv, 1);
+  for(int i = 0; i < _iterations; i++)
+    if(i == _iterations - 1)
+      return this->crypt(data, length + 1, true, 1);
+    else this->crypt(data, length);
 }
 
-/* This crypting algorithm is inspired to the RC4 standard with the addition
-   of a 1 byte initialization vector and tunable encryption_strength */
+
+/* Private key, iteration tunable stream chipher algorithm with optional initialization vector */
 
 void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, boolean side) {
-  uint8_t i, j = 0;
+  uint8_t i, j, k = 0;
   uint8_t key_length = strlen(_encryption_key);
 
   if(initialization_vector && side)
     for(i = 0; i < length; i++)
       data[i] ^= data[length - 1];
 
-  for (i = 0; i < _encryption_strength; i++)
-    swap(_s_box[i], _s_box[(j + _encryption_key[i % key_length]) % MAX_LENGTH]);
-
-  i = j = 0;
-  for (uint8_t k = 0; k < length; k++) {
-    i++;
+  for (k = 0, i = 0; k < length; k++, i++) {
     swap(_s_box[i], _s_box[j + _s_box[i]]);
     result[k] = data[k] ^ _s_box[(_s_box[i] + _s_box[j])];
   }
@@ -82,6 +85,7 @@ void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, bool
       result[i] ^= result[length];
   }
 }
+
 
 uint8_t Cape::generate_IV() {
   return (micros() % 254) + 1;;

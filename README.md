@@ -1,16 +1,16 @@
 Cape 1.0 Stable
 ====
-This is an arduino compatible string encryption library. I wrote this to add encryption feature to [PJON](https://github.com/gioblu/PJON) communications bus system. It is really easy to use but limited by the computational power of the ATmega chip.
+This is an arduino compatible string encryption library. I started working on this to add encryption to [PJON](https://github.com/gioblu/PJON) communications bus system. It is really easy to use but limited by the computational power of the ATmega chip.
 
-Cape use a private key, an iteration tunable stream chipher algorithm with the addition of 1 byte initialization vector; all this is reversible, so two entities with the same key can share encrypted data and come back to the original content.
+Cape uses a private key, an iteration tunable stream chipher algorithm and an optional initialization vector.
 
-Instantiate Cape passing as first parameter the encryption key, and as second, the encryption strength, that is a value from 1 to 100. `MAX_LENGTH` constant in `Cape.h` limits string maximum length and the maximum encryption strength value permitted (rise to an higher value if necessary, don't higher over 255 or will not work). Consider that a long encryption key and / or a high encryption strength value leads to longer computation time:
+Instantiate Cape passing as first parameter the encryption key, and as second, the number of iterations you want to perform, that is a value from 1 to 32767 (int limit). `MAX_LENGTH` constant in `Cape.h` limits maximum string length, rise to an higher value if necessary, not over 255 or will not work. Consider that a long encryption key and / or a lot of iterations, leads to a longer computation time:
 ```cpp  
   Cape cape("YOUR-ENCRYPTION-KEY", 2);
 ```
-If you want an additional layer of security using `initialization_vector` pass true as third parameter:
+If you want an additional layer of security with `initialization_vector` use its setter:
 ```cpp  
-  Cape cape("YOUR-ENCRYPTION-KEY", 2, true);
+  cape.set_initialization_vector(true);
 ```
 To encrypt a string:
 ```cpp  
