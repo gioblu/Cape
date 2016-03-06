@@ -1,10 +1,9 @@
 #include <Cape.h>
 
-Cape cape("YOUR-ENCRYPTION-KEY", 50);
+Cape cape("YOUR-ENCRYPTION-KEY", 2);
 
 void setup() {
   Serial.begin(115200);
-  cape.set_initialization_vector(true);
 }
 
 void loop() {

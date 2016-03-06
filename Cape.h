@@ -41,22 +41,18 @@ of this software, even if advised of the possibility of such damage. */
 
 #define MAX_LENGTH 100
 
-#define swap(a,b) do { int t = _s_box[a]; _s_box[a] = _s_box[b]; _s_box[b] = t; } while(0)
-
 class Cape {
   public:
-    Cape(char *key, uint8_t iterations);
+    Cape(char *key, uint8_t iterations = 0);
     void crypt(char *data, uint8_t length, boolean initialization_vector = false, boolean side = false);
     void encrypt(char *data, uint8_t length);
     void decrypt(char *data, uint8_t length);
     uint8_t generate_IV();
-    void set_initialization_vector(boolean initialization_vector);
 
     char result[MAX_LENGTH];
   private:
     char * _key;
     char _reduced_key;
     uint8_t _iterations;
-    boolean _iv;
     unsigned char _s_box[MAX_LENGTH];
 };

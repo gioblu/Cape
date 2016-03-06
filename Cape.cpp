@@ -42,28 +42,29 @@ of this software, even if advised of the possibility of such damage. */
 Cape::Cape(char *key, uint8_t iterations) {
   _key = key;
   _iterations = iterations;
-}
 
-void Cape::set_initialization_vector(boolean iv) {
-  _iv = iv;
+  for(uint8_t i = 0; i < strlen(_key); i++)
+    _reduced_key ^= key[i];
 }
 
 /* Private key, iteration tunable stream chipher algorithm with optional initialization vector */
 
 void Cape::encrypt(char *data, uint8_t length) {
-  for(int i = 0; i < _iterations; i++)
-    this->crypt(data, length, (i == _iterations - 1) ? true : false, 0);
+  this->crypt(data, length);
+  for(int i = 0; _iterations && i < _iterations; i++)
+    this->crypt(result, length, (i == _iterations - 1) ? true : false, 0);
 }
 
 void Cape::decrypt(char *data, uint8_t length) {
-  for(int i = 0; i < _iterations; i++)
+  this->crypt(data, length);
+  for(int i = 0; _iterations && i < _iterations; i++)
     if(i == _iterations - 1)
-      return this->crypt(data, length + 1, true, 1);
-    else this->crypt(data, length);
+      return this->crypt(result, length + 1, true, 1);
+    else this->crypt(result, length);
 }
 
 void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, boolean side) {
-  uint8_t i, j, k = 0;
+  uint8_t i = 0;
   uint8_t key_length = strlen(_key);
 
   if(initialization_vector && side) {
@@ -73,10 +74,8 @@ void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, bool
       data[i] ^= data[length - 1];
   }
 
-  for (k = 0, i = 0; k < length; k++, i++) {
-    swap(_s_box[i], _s_box[j + _s_box[i]]);
-    result[k] = data[k] ^ _s_box[(_s_box[i] + _s_box[j]) ^ _key[k % key_length - 1]];
-  }
+  for (i = 0; i < length; i++)
+    result[i] = data[i] ^ _key[i % key_length - 1];
 
   if(initialization_vector && !side) {
     result[length] = this->generate_IV();
