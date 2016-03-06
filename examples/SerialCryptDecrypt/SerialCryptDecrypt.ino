@@ -1,22 +1,38 @@
 #include <Cape.h>
 
-Cape cape("YOUR-PRIVATE-KEY", 2, true);
+Cape cape("YOUR-ENCRYPTION-KEY", 50, true);
 
 void setup() {
   Serial.begin(115200);
 }
 
 void loop() {
-  
+  unsigned long time = micros();
   cape.encrypt("Hello world!", 12);
-  for(int i = 0; i < MAX_LENGTH; i++)
-    Serial.print(cape.result[i]);
-  Serial.println();
+  time = micros() - time;
   
+  Serial.println("------------------");
+  Serial.print("CRIPTED: ");
+  for(int i = 0; i < 13; i++)
+    Serial.print(cape.result[i]);
+
+  Serial.println();
+  Serial.print("Computation time: ");
+  Serial.print(time);
+  Serial.println(" microseconds");
+
+  time = micros();
   cape.decrypt(cape.result, 12);
-    for(int i = 0; i < MAX_LENGTH; i++)
+  time = micros() - time;
+
+  Serial.print("ORIGINAL: ");
+  for(int i = 0; i < 13; i++)
     Serial.print(cape.result[i]);
+
   Serial.println();
-  
-  delay(100);
+  Serial.print("Computation time: ");
+  Serial.print(time);
+  Serial.println(" microseconds");
+
+  delay(150);
 }

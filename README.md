@@ -4,17 +4,17 @@ This is an arduino compatible string encryption library. I wrote this to add enc
 
 Cape use a private key, an iteration tunable stream chipher algorithm with the addition of 1 byte initialization vector; all this is reversible, so two entities with the same key can share encrypted data and come back to the original content.
 
-Instantiate Cape passing as first parameter the encryption key, and as second, the encryption strength. If set to high values will encrease the computation time needed:
+Instantiate Cape passing as first parameter the encryption key, and as second, the encryption strength, that is a value from 1 to 100. `MAX_LENGTH` constant in `Cape.h` limits string maximum length and the maximum encryption strength value permitted (rise to an higher value if necessary, don't higher over 255 or will not work). Consider that a long encryption key and / or a high encryption strength value leads to longer computation time:
 ```cpp  
-  Cape cape("YOUR-ENCRYPTION-KEY", 2); 
+  Cape cape("YOUR-ENCRYPTION-KEY", 2);
 ```
 If you want an additional layer of security using `initialization_vector` pass true as third parameter:
 ```cpp  
-  Cape cape("YOUR-ENCRYPTION-KEY", 2, true); 
+  Cape cape("YOUR-ENCRYPTION-KEY", 2, true);
 ```
 To encrypt a string:
 ```cpp  
-  cape.encrypt("CRYPTMEPLEASE", 13); 
+  cape.encrypt("CRYPTMEPLEASE", 13);
 ```
 Inside cape.result you find the crypted version of your string
 ```cpp  
@@ -53,14 +53,14 @@ modification, are permitted provided that the following conditions are met:
    names of its contributors may be used to endorse or promote products
    derived from this software without specific prior written permission.
 
-This software is provided by the copyright holders and contributors "as is" 
-and any express or implied warranties, including, but not limited to, the 
+This software is provided by the copyright holders and contributors "as is"
+and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantability and fitness for a particular purpose
-are disclaimed. In no event shall the copyright holder or contributors be liable 
+are disclaimed. In no event shall the copyright holder or contributors be liable
 for any direct, indirect, incidental, special, exemplary, or consequential
-damages (including, but not limited to, procurement of substitute goods or 
-services; loss of use, data, or profits; or business interruption) however 
-caused and on any theory of liability, whether in contract, strict liability, 
-or tort (including negligence or otherwise) arising in any way out of the use 
+damages (including, but not limited to, procurement of substitute goods or
+services; loss of use, data, or profits; or business interruption) however
+caused and on any theory of liability, whether in contract, strict liability,
+or tort (including negligence or otherwise) arising in any way out of the use
 of this software, even if advised of the possibility of such damage. */
 ```

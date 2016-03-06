@@ -2,7 +2,7 @@
    |      |     | |     | |
    |      |_____| |_____| |_____
    |      |     | |       |
-   |_____ |     | |       |_____  version 1.0 
+   |_____ |     | |       |_____  version 1.0
 
 Cape Copyright (c) 2012-2016, Giovanni Blu Mitolo All rights reserved.
 
@@ -23,15 +23,15 @@ modification, are permitted provided that the following conditions are met:
    names of its contributors may be used to endorse or promote products
    derived from this software without specific prior written permission.
 
-This software is provided by the copyright holders and contributors "as is" 
-and any express or implied warranties, including, but not limited to, the 
+This software is provided by the copyright holders and contributors "as is"
+and any express or implied warranties, including, but not limited to, the
 implied warranties of merchantability and fitness for a particular purpose
-are disclaimed. In no event shall the copyright holder or contributors be liable 
+are disclaimed. In no event shall the copyright holder or contributors be liable
 for any direct, indirect, incidental, special, exemplary, or consequential
-damages (including, but not limited to, procurement of substitute goods or 
-services; loss of use, data, or profits; or business interruption) however 
-caused and on any theory of liability, whether in contract, strict liability, 
-or tort (including negligence or otherwise) arising in any way out of the use 
+damages (including, but not limited to, procurement of substitute goods or
+services; loss of use, data, or profits; or business interruption) however
+caused and on any theory of liability, whether in contract, strict liability,
+or tort (including negligence or otherwise) arising in any way out of the use
 of this software, even if advised of the possibility of such damage. */
 
 #include "Cape.h"
@@ -67,17 +67,17 @@ void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, bool
       data[i] ^= data[length - 1];
 
   for (i = 0; i < _encryption_strength; i++) {
-    _s_box[i] = i;
-    j = (j + _s_box[i] + _encryption_key[i % key_length]) % _encryption_strength;
+    _s_box[i] = 0;
+    j = (j + _s_box[i] + _encryption_key[i % key_length]) % MAX_LENGTH;
     swap(_s_box[i], _s_box[j]);
   }
 
   i = j = 0;
-  for (int k = 0; k < length; k++) {
-    i = (i + 1) % _encryption_strength;
-    j = (j + _s_box[i]) % _encryption_strength;
+  for (uint8_t k = 0; k < length; k++) {
+    i++;
+    j = (j + _s_box[i]);
     swap(_s_box[i], _s_box[j]);
-    result[k] = data[k] ^ _s_box[(_s_box[i] + _s_box[j]) % _encryption_strength];
+    result[k] = data[k] ^ _s_box[(_s_box[i] + _s_box[j])];
   }
 
   if(initialization_vector && !side) {
