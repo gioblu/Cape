@@ -1,10 +1,10 @@
 Cape 1.0 Stable
 ====
-This is an arduino compatible string encryption library. I started working on this to add encryption to [PJON](https://github.com/gioblu/PJON) communications bus system. It is really easy to use but limited by the computational power of the ATmega chip. I am now working to bring this compatible with ESP8266 and other Arduino compatible boards.
+This is an arduino compatible string encryption library. I started working on this to add encryption to [PJON](https://github.com/gioblu/PJON) communications bus system. It is really easy to use but limited by the computational power of the ATmega chip. I am now working to bring it compatible with ESP8266 and other Arduino compatible boards.
 
 Cape uses a private key, an iteration tunable stream chipher algorithm and an optional initialization vector.
 
-Instantiate Cape passing as first parameter the encryption key, and as second, the number of iterations you want to perform, that is a value from 1 to 32767 (`int` limit). `MAX_LENGTH` constant in `Cape.h` limits maximum string length, rise to an higher value if necessary, not over 255 or will not work. Consider that a long encryption key and / or a lot of iterations, leads to a longer computation time:
+Instantiate Cape passing as first parameter the encryption key, and as second, the number of iterations you want to perform, that is a value from 1 to 32767 (`int` limit). `MAX_LENGTH` constant in `Cape.h` limits maximum string length, rise to a higher value if necessary, not over 255 otherwise it will not work. Consider that a long encryption key and / or a lot of iterations, leads to a longer computation time:
 ```cpp  
   Cape cape("YOUR-ENCRYPTION-KEY");
 ```
@@ -18,7 +18,7 @@ To encrypt a string:
 ```cpp  
   cape.encrypt("CRYPTMEPLEASE", 13);
 ```
-Inside cape.result you find the crypted version of your string
+Inside `cape.result` you find the crypted version of your string
 ```cpp  
   for(uint8_t i = 0; i < 13; i++)
     Serial.print(cape.result[i]);
