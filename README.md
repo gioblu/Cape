@@ -11,7 +11,8 @@ Instantiate Cape passing as first parameter the encryption key, and as second, t
 If you want an additional layer of security with `initialization_vector` and procedure iteration
 pass as second parameter the number of iterations you want to perform:
 ```cpp  
-  Cape cape("YOUR-ENCRYPTION-KEY");
+  // Apply initialization vector and iterate 10 times
+  Cape cape("YOUR-ENCRYPTION-KEY", 10);
 ```
 To encrypt a string:
 ```cpp  
