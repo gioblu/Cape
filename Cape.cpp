@@ -50,17 +50,15 @@ Cape::Cape(char *key, uint8_t iterations) {
 /* Private key, iteration tunable stream chipher algorithm with optional initialization vector */
 
 void Cape::encrypt(char *data, uint8_t length) {
-  this->crypt(data, length);
-  for(int i = 0; _iterations && i < _iterations; i++)
-    this->crypt(result, length, (i == _iterations - 1) ? true : false, 0);
+  for(uint8_t i = 0; _iterations > 1 && i < _iterations - 1; i++)
+    this->crypt((i == 0) ? data : result, length);
+  this->crypt(result, length, true, 0);
 }
 
 void Cape::decrypt(char *data, uint8_t length) {
-  this->crypt(data, length);
-  for(int i = 0; _iterations && i < _iterations; i++)
-    if(i == _iterations - 1)
-      return this->crypt(result, length + 1, true, 1);
-    else this->crypt(result, length);
+  this->crypt(data, length, true, 1);
+  for(uint8_t i = 0; _iterations > 1 && i < _iterations - 1; i++)
+    this->crypt(result, length);
 }
 
 void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, boolean side) {
@@ -68,10 +66,10 @@ void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, bool
   uint8_t key_length = strlen(_key);
 
   if(initialization_vector && side) {
-    data[length - 1] ^=  _reduced_key;
+    data[length] ^=  _reduced_key;
 
     for(i = 0; i < length; i++)
-      data[i] ^= data[length - 1];
+      data[i] ^= data[length];
   }
 
   for (i = 0; i < length; i++)

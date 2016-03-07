@@ -54,5 +54,4 @@ class Cape {
     char * _key;
     char _reduced_key;
     uint8_t _iterations;
-    unsigned char _s_box[MAX_LENGTH];
 };
