@@ -6,16 +6,16 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-Cape					KEYWORD1
+Cape  KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
-encrypt 				KEYWORD2
-decrypt 				KEYWORD2
-crypt					KEYWORD2
-generate_IV				KEYWORD2
+encrypt         KEYWORD2
+decrypt         KEYWORD2
+crypt           KEYWORD2
+generate_IV     KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)

@@ -2,7 +2,7 @@
    |      |     | |     | |
    |      |_____| |_____| |_____
    |      |     | |       |
-   |_____ |     | |       |_____  version 1.1
+   |_____ |     | |       |_____  version 1.2
 
 Cape Copyright (c) 2012-2016, Giovanni Blu Mitolo All rights reserved.
 
@@ -43,15 +43,14 @@ of this software, even if advised of the possibility of such damage. */
 
 class Cape {
   public:
-    Cape(char *key, uint8_t iterations = 0);
+    Cape(char *key, uint8_t key_length = 0);
     void crypt(char *data, uint8_t length, boolean initialization_vector = false, boolean side = false);
     void encrypt(char *data, uint8_t length);
     void decrypt(char *data, uint8_t length);
     uint8_t generate_IV();
-
     char result[MAX_LENGTH];
   private:
     char * _key;
-    char _reduced_key;
-    uint8_t _iterations;
+    char   _key_length;
+    char   _reduced_key;
 };

@@ -2,32 +2,26 @@ Cape 1.0 Stable
 ====
 This is an arduino compatible string encryption library. I started working on this to add encryption to [PJON](https://github.com/gioblu/PJON) communications bus system. It is really easy to use but limited by the computational power of the ATmega chip. I am now working to bring it compatible with ESP8266 and other Arduino compatible boards.
 
-Cape uses a private key, an iteration tunable stream chipher algorithm and an optional initialization vector.
+Cape uses a private key, stream chipher algorithm and a masked initialization vector.
 
-Instantiate Cape passing as first parameter the encryption key, and as second, the number of iterations you want to perform, that is a value from 1 to 32767 (`int` limit). `MAX_LENGTH` constant in `Cape.h` limits maximum string length, rise to a higher value if necessary, not over 255 otherwise it will not work. Consider that a long encryption key and / or a lot of iterations, leads to a longer computation time:
+Instantiate Cape passing as first parameter the encryption key, and as second, its length. `MAX_LENGTH` constant in `Cape.h` limits maximum string length, rise to a higher value if necessary, not over 255 otherwise it will not work. Consider that a long encryption key, leads to a longer computation time:
 ```cpp  
-  Cape cape("YOUR-ENCRYPTION-KEY");
-```
-If you want an additional layer of security with `initialization_vector` and procedure iteration
-pass as second parameter the number of iterations you want to perform:
-```cpp  
-  // Apply initialization vector and iterate 10 times
-  Cape cape("YOUR-ENCRYPTION-KEY", 10);
+  Cape cape("YOUR-ENCRYPTION-KEY", 19);
 ```
 To encrypt a string:
 ```cpp  
   cape.encrypt("CRYPTMEPLEASE", 13);
 ```
-Inside `cape.result` you find the crypted version of your string
+Inside `cape.result` you find the crypted version of your string, with an additional byte at the end, use to encrypt data, called initialization vector:
 ```cpp  
-  for(uint8_t i = 0; i < 13; i++)
+  for(uint8_t i = 0; i < 14; i++)
     Serial.print(cape.result[i]);
 ```
 If you want to come back from the encrypted data to the original string:
 ```cpp  
-    cape.decrypt(cape.result, 13);
+    cape.decrypt(cape.result, 14);
 ```
-and print the original string as before to check all is working and to get back "CRYPTMEPLEASE" string:
+Print the original string as before to check all is working and to get back "CRYPTMEPLEASE" string:
 ```cpp  
   for(uint8_t i = 0; i < 13; i++)
     Serial.print(cape.result[i]);
@@ -40,7 +34,7 @@ and print the original string as before to check all is working and to get back 
    |      |     | |     | |
    |      |_____| |_____| |_____
    |      |     | |       |
-   |_____ |     | |       |_____  version 1.1
+   |_____ |     | |       |_____  version 1.2
 
 Cape Copyright (c) 2012-2016, Giovanni Blu Mitolo All rights reserved.
 
