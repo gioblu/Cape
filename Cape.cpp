@@ -94,7 +94,7 @@ void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, bool
     result[length] ^= _reduced_key;
     // 4 - further hash result with private key and reduced key
     // i. e. original "Hello world" Hashing result at this state: "$eUUr)DjdUa"
-    // Hide possible pattern / repeated charater
+    // Hide possible pattern / repeated charater i.e. result: "a5D#)W#<!{s"
     for(i = 0; i < length; i++)
       result[i] ^= (i ^ _key[(i ^ _reduced_key) % _key_length]);
   }
