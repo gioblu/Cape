@@ -78,6 +78,7 @@ void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, bool
   }
 
   // Hash data with key
+  // Static, reversible hashing
   for (i = 0; i < length; i++)
     result[i] = data[i] ^ _key[i % _key_length - 1];
 
@@ -85,11 +86,15 @@ void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, bool
     // 1 - Generate pseudo-random initialization vector
     result[length] = this->generate_IV();
     // 2 - Hash result using initialization vector
+    // 255 different versions of the same original string 
     for(i = 0; i < length; i++)
       result[i] ^= result[length];
     // 3 - Hash initialization vector with reduced private key
+    // Hide initialization vector
     result[length] ^= _reduced_key;
     // 4 - further hash result with private key and reduced key
+    // i. e. original "Hello world" Hashing result at this state: "$eUUr)DjdUa"
+    // Hide possible pattern / repeated charater
     for(i = 0; i < length; i++)
       result[i] ^= (i ^ _key[(i ^ _reduced_key) % _key_length]);
   }
