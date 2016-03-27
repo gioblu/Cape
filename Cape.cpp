@@ -80,7 +80,7 @@ void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, bool
   // Hash data with key
   // Static, reversible hashing
   for (i = 0; i < length; i++)
-    result[i] = data[i] ^ _key[i % _key_length - 1];
+    result[i] = data[i] ^ _key[i % _key_length];
 
   if(initialization_vector && !side) {
     // 1 - Generate pseudo-random initialization vector
