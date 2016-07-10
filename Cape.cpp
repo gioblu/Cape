@@ -48,58 +48,62 @@ Cape::Cape(char *key, uint8_t key_length) {
     _reduced_key ^= key[i];
 }
 
+
 /* Private key, stream chipher algorithm with masked initialization vector */
 
-void Cape::encrypt(char *data, uint8_t length) {
+void Cape::encrypt(char *source, char *destination, uint8_t length) {
   // Hash data with masked initialization vector at the end
-  this->crypt(data, length, true, 0);
+  this->crypt(source, destination, length, true, false);
   // Further hash result and initialization vector (without adding a new one)
-  this->crypt(result, length + 1);
-}
+  this->crypt(destination, destination, length + 1);
+};
 
-void Cape::decrypt(char *data, uint8_t length) {
+
+void Cape::decrypt(char *source, char *destination, uint8_t length) {
   // Hash data without triyng to decode initialization vector at the end
-  this->crypt(data, length);
+  this->crypt(source, destination, length);
   // Now decrypt decoding initialization vector
-  this->crypt(result, length - 1, true, 1);
-}
+  this->crypt(destination, destination, length - 1, true, true);
+};
 
-void Cape::crypt(char *data, uint8_t length, boolean initialization_vector, boolean side) {
+
+void Cape::crypt(char *source, char *destination, uint8_t length, boolean initialization_vector, boolean side) {
   uint8_t i = 0;
+
   if(initialization_vector && side) {
     // 1 - Hash data with private key and reduced key
     for(i = 0; i < length; i++)
-      data[i] ^= (i ^ _key[(i ^ _reduced_key) % _key_length]);
+      destination[i] = source[i] ^ (i ^ _key[(i ^ _reduced_key) % _key_length]);
     // 2 - Hash last character to get back real initialization vector
-    data[length] ^=  _reduced_key;
+    destination[length] = source[length] ^ _reduced_key;
     // 3 - Hash all content with the real initialization vector
     for(i = 0; i < length; i++)
-      data[i] ^= data[length];
+      destination[i] ^= source[length];
   }
 
   // Hash data with key
   // Static, reversible hashing
   for (i = 0; i < length; i++)
-    result[i] = data[i] ^ _key[i % _key_length];
+    destination[i] = source[i] ^ _key[i % _key_length];
 
   if(initialization_vector && !side) {
     // 1 - Generate pseudo-random initialization vector
-    result[length] = this->generate_IV();
+    destination[length] = this->generate_IV();
     // 2 - Hash result using initialization vector
-    // 255 different versions of the same original string 
+    // 255 different versions of the same original string
     for(i = 0; i < length; i++)
-      result[i] ^= result[length];
+      destination[i] ^= destination[length];
     // 3 - Hash initialization vector with reduced private key
     // Hide initialization vector
-    result[length] ^= _reduced_key;
+    destination[length] ^= _reduced_key;
     // 4 - further hash result with private key and reduced key
     // i. e. original "Hello world" Hashing result at this state: "$eUUr)DjdUa"
     // Hide possible pattern / repeated charater i.e. result: "a5D#)W#<!{s"
     for(i = 0; i < length; i++)
-      result[i] ^= (i ^ _key[(i ^ _reduced_key) % _key_length]);
+      destination[i] ^= (i ^ _key[(i ^ _reduced_key) % _key_length]);
   }
-}
+};
 
 uint8_t Cape::generate_IV() {
   return (random(0, 256) * millis()) % 255 + 1;
-}
+};

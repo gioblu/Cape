@@ -1,4 +1,4 @@
-Cape 1.2 Stable
+Cape 1.3 Stable
 ====
 This is an arduino compatible string encryption library. I started working on this to add encryption to [PJON](https://github.com/gioblu/PJON) communications bus system. It is really easy to use but limited by the computational power of the ATmega chip. I am now working to bring it compatible with ESP8266 and other Arduino compatible boards.
 
@@ -10,21 +10,23 @@ Instantiate Cape passing as first parameter the encryption key, and as second, i
 ```
 To encrypt a string:
 ```cpp  
-  cape.encrypt("CRYPTMEPLEASE", 13);
+  char source[] ="CRYPTMEPLEASE";
+  char destination[14];
+  cape.encrypt(source, 13);
 ```
-Inside `cape.result` you find the crypted version of your string, with an additional byte at the end, use to encrypt data, called initialization vector:
+Inside `destination` you find the crypted version of your string, with an additional byte at the end, use to encrypt data, called initialization vector, so be sure to define your destination buffer, always 1 byte longer:
 ```cpp  
   for(uint8_t i = 0; i < 14; i++)
-    Serial.print(cape.result[i]);
+    Serial.print(destination[i]);
 ```
 If you want to come back from the encrypted data to the original string:
 ```cpp  
-    cape.decrypt(cape.result, 14);
+    cape.decrypt(destination, source, 14);
 ```
 Print the original string as before to check all is working and to get back "CRYPTMEPLEASE" string:
 ```cpp  
   for(uint8_t i = 0; i < 13; i++)
-    Serial.print(cape.result[i]);
+    Serial.print(source[i]);
 ```
 
 ###License

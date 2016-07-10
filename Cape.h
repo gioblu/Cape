@@ -39,16 +39,13 @@ of this software, even if advised of the possibility of such damage. */
   #include "Arduino.h"
 #endif
 
-#define MAX_LENGTH 100
-
 class Cape {
   public:
     Cape(char *key, uint8_t key_length = 0);
-    void crypt(char *data, uint8_t length, boolean initialization_vector = false, boolean side = false);
-    void encrypt(char *data, uint8_t length);
-    void decrypt(char *data, uint8_t length);
+    void crypt(char *source, char *destination, uint8_t length, boolean initialization_vector = false, boolean side = false);
+    void encrypt(char *source, char *destination, uint8_t length);
+    void decrypt(char *source, char *destination, uint8_t length);
     uint8_t generate_IV();
-    char result[MAX_LENGTH];
   private:
     char * _key;
     char   _key_length;
