@@ -2,7 +2,7 @@
    |      |     | |     | |
    |      |_____| |_____| |_____
    |      |     | |       |
-   |_____ |     | |       |_____  version 1.2
+   |_____ |     | |       |_____  version 1.3
 
 Cape Copyright (c) 2012-2016, Giovanni Blu Mitolo All rights reserved.
 
