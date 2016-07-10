@@ -4,7 +4,7 @@ This is an arduino compatible string encryption library. I started working on th
 
 Cape uses a private key, stream chipher algorithm and a masked initialization vector.
 
-Instantiate Cape passing as first parameter the encryption key, and as second, its length. `MAX_LENGTH` constant in `Cape.h` limits maximum string length, rise to a higher value if necessary. Consider that a long encryption key, leads to a longer computation time:
+Instantiate Cape passing as first parameter the encryption key, and as second, its length.
 ```cpp  
   Cape cape("YOUR-ENCRYPTION-KEY", 19);
 ```
@@ -36,7 +36,7 @@ Print the original string as before to check all is working and to get back "CRY
    |      |     | |     | |
    |      |_____| |_____| |_____
    |      |     | |       |
-   |_____ |     | |       |_____  version 1.2
+   |_____ |     | |       |_____  version 1.3
 
 Cape Copyright (c) 2012-2016, Giovanni Blu Mitolo All rights reserved.
 
