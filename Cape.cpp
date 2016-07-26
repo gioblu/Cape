@@ -33,6 +33,7 @@ Cape::Cape(char *key, uint8_t length) {
 /* Compute a 1 byte version of the private key: */
 
 void Cape::compute_reduced_key(char *key, uint8_t length) {
+  _reduced_key = 0;
   for(uint8_t i = 0; i < length; i++)
      _reduced_key ^= key[i];
 };
