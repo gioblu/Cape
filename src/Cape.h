@@ -39,7 +39,7 @@ class Cape {
        (max 65535 characters) */
     void decrypt(char *source, char *destination, uint16_t length) {
       // Hash data without triyng to decode initialization vector at the end
-      this->hash(source, destination, length);
+      hash(source, destination, length);
       // Now decrypt decoding initialization vector
       length = length - 1;
       // 1 - Hash data with private key and reduced key
