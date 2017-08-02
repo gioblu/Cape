@@ -55,13 +55,6 @@ class Cape {
       hash(destination, destination, length);
     };
 
-    /* Static, reversible hashing using the private key key:
-       (max 65535 characters) */
-    void hash(char *source, char *destination, uint16_t length) {
-      for(uint16_t i = 0; i < length; i++)
-        destination[i] = source[i] ^ _key[i % _key_length];
-    };
-
     /* Stream chipher, private key, initialization vector based encryption
        algorithm (max 65535 characters):  */
     void encrypt(
@@ -88,7 +81,15 @@ class Cape {
       for(uint16_t i = 0; i < length; i++)
         destination[i] ^= (i ^ _key[(i ^ _reduced_key) % _key_length]);
       // Further hash result and initialization vector (without adding a new one)
-      this->hash(destination, destination, length + 1);
+      hash(destination, destination, length + 1);
+    };
+
+    /* Static, reversible hashing using the private key key:
+       (max 65535 characters) */
+    void hash(char *source, char *destination, uint16_t length) {
+      for(uint16_t i = 0; i < length; i++)
+        destination[i] =
+          _reduced_key ^ source[i] ^ _key[(i ^ _reduced_key) % _key_length];
     };
 
     /* Set or Change encryption key (max 65535 characters): */
