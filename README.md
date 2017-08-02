@@ -1,6 +1,6 @@
 Cape 2.0
 ====
-Cape is a string encryption library developed to offer efficient encryption on small microcontrollers. Cape implements a new, private key, XOR based, stream chipher algorithm on top of which is applied a pseudo-random initialization vector encryption. Cape is implemented in c++ and engineered to avoid any external dependency.
+Cape is a string encryption library developed to offer efficient encryption on small microcontrollers. Cape implements a new, private key, XOR based, stream chipher algorithm on top of which is applied a pseudo-random initialization vector encryption method. Cape is implemented in c++ and engineered to avoid any external dependency.
 
 ### How to use Cape
 
