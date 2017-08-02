@@ -1,6 +1,6 @@
 Cape 2.0
 ====
-Cape is a string encryption library developed to offer efficient encryption on small microcontrollers. Cape implements a new, private key, XOR based, stream chipher algorithm on top of which is applied further XOR based encryption using a private key and a pseudo-random initialization vector, that is also encrypted using the private key and then appended to information. I started working on this to add encryption to [PJON](https://github.com/gioblu/PJON) communications bus system. Cape is implemented in c++ and engineered to avoid any external dependency.
+Cape is a string encryption library developed to offer efficient encryption on small microcontrollers. Cape implements a new, private key, XOR based, stream chipher algorithm on top of which is applied a pseudo-random initialization vector encryption. Cape is implemented in c++ and engineered to avoid any external dependency.
 
 ### How to use Cape
 
@@ -41,7 +41,7 @@ If you need to change the encryption key after instantiation call `set_key` pass
    |      |_____| |_____| |_____
    |_____ |     | |       |_____  version 2.0
 
-Cape Copyright (c) 2012-2016, Giovanni Blu Mitolo All rights reserved.
+Cape Copyright (c) 2012-2017, Giovanni Blu Mitolo All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
