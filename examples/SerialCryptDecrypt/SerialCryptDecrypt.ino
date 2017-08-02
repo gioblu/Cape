@@ -1,11 +1,15 @@
+
 #include <Cape.h>
 
-char key[] = "9LKSUR&#5A";    // Encryption key (keep private and safe)
+// Encryption key (keep private and safe)
+char key[] = "9LKSUR&#5A";
+// Source content to be crypted
+char source[] = "HELLOWORLD";
+// Result buffer needs an additional byte for the initialization vector
+char destination[11];
+// Insert secret key and its length
+Cape cape(key, 10);
 
-char source[] = "HELLOWORLD"; // Source content to be crypted
-char destination[11];         // Result buffer needs an additional byte for the initialization vector
-
-Cape cape(key, 10);           // Insert secret key and its length
 
 void setup() {
   Serial.begin(115200);
@@ -18,9 +22,8 @@ void loop() {
 
   // Generate a random key
   for(int i = 0; i < 10; i++) {
-   temp = random(0, 255);
-   if(temp > 0 && temp < 255) key[i] = temp;
-   Serial.print(temp);
+   key[i] = (uint8_t)random(0, 127);
+   Serial.print(key[i]);
   }
 
   Serial.println();
