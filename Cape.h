@@ -25,12 +25,12 @@ limitations under the License. */
 
 class Cape {
   public:
-    Cape(char *key, uint8_t key_length = 0);
-    void compute_reduced_key(char *key, uint8_t length);
-    void crypt(char *source, char *destination, uint8_t length, boolean initialization_vector = false, boolean side = false);
-    void decrypt(char *source, char *destination, uint8_t length);
-    void encrypt(char *source, char *destination, uint8_t length);
-    void set_key(char *key, uint8_t length);
+    Cape(char *key, uint16_t key_length = 0);
+    void compute_reduced_key(char *key, uint16_t length);
+    void crypt(char *source, char *destination, uint16_t length, boolean initialization_vector = false, boolean side = false);
+    void decrypt(char *source, char *destination, uint16_t length);
+    void encrypt(char *source, char *destination, uint16_t length);
+    void set_key(char *key, uint16_t length);
     uint8_t generate_IV();
   private:
     char * _key;

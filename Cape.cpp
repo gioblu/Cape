@@ -23,7 +23,7 @@ limitations under the License. */
 /* Initiate Cape passing a random string (maximum 255 characters), the number
    of hashing iterations you want to perform (max 32767) */
 
-Cape::Cape(char *key, uint8_t length) {
+Cape::Cape(char *key, uint16_t length) {
   _key = key;
   _key_length = length;
   compute_reduced_key(key, length);
@@ -32,16 +32,16 @@ Cape::Cape(char *key, uint8_t length) {
 
 /* Compute a 1 byte version of the private key: */
 
-void Cape::compute_reduced_key(char *key, uint8_t length) {
+void Cape::compute_reduced_key(char *key, uint16_t length) {
   _reduced_key = 0;
-  for(uint8_t i = 0; i < length; i++)
+  for(uint16_t i = 0; i < length; i++)
      _reduced_key ^= key[i];
 };
 
 
 /* Set or Change encryption key: */
 
-void Cape::set_key(char *key, uint8_t length) {
+void Cape::set_key(char *key, uint16_t length) {
   _key = key;
   _key_length = length;
   compute_reduced_key(key, length);
@@ -50,7 +50,7 @@ void Cape::set_key(char *key, uint8_t length) {
 
 /* Private key, stream chipher algorithm with masked initialization vector */
 
-void Cape::encrypt(char *source, char *destination, uint8_t length) {
+void Cape::encrypt(char *source, char *destination, uint16_t length) {
   // Hash data with masked initialization vector at the end
   this->crypt(source, destination, length, true, false);
   // Further hash result and initialization vector (without adding a new one)
@@ -58,7 +58,7 @@ void Cape::encrypt(char *source, char *destination, uint8_t length) {
 };
 
 
-void Cape::decrypt(char *source, char *destination, uint8_t length) {
+void Cape::decrypt(char *source, char *destination, uint16_t length) {
   // Hash data without triyng to decode initialization vector at the end
   this->crypt(source, destination, length);
   // Now decrypt decoding initialization vector
@@ -66,8 +66,8 @@ void Cape::decrypt(char *source, char *destination, uint8_t length) {
 };
 
 
-void Cape::crypt(char *source, char *destination, uint8_t length, boolean initialization_vector, boolean side) {
-  uint8_t i = 0;
+void Cape::crypt(char *source, char *destination, uint16_t length, boolean initialization_vector, boolean side) {
+  uint16_t i = 0;
 
   if(initialization_vector && side) {
     // 1 - Hash data with private key and reduced key
