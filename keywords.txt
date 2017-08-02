@@ -13,10 +13,9 @@ Cape  KEYWORD1
 #######################################
 
 
-crypt           KEYWORD2
+hash            KEYWORD2
 decrypt         KEYWORD2
 encrypt         KEYWORD2
-generate_IV     KEYWORD2
 set_key         KEYWORD2
 
 #######################################
@@ -27,5 +26,3 @@ set_key         KEYWORD2
 #######################################
 # Constants (LITERAL1)
 #######################################
-
-MAX_LENGTH				LITERAL1
