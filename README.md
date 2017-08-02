@@ -1,6 +1,6 @@
 Cape 2.0
 ====
-Cape is a string encryption library developed to offer efficient encryption on small microcontrollers. Cape implements a new, private key, XOR based, stream chipher algorithm on top of which is applied further XOR based encryption using a private key and pseudo-random initialization vector, that is also encrypted using the private key and then appended to information. I started working on this to add encryption to [PJON](https://github.com/gioblu/PJON) communications bus system. It is implemented in c++ and engineered to avoid any external dependency.
+Cape is a string encryption library developed to offer efficient encryption on small microcontrollers. Cape implements a new, private key, XOR based, stream chipher algorithm on top of which is applied further XOR based encryption using a private key and a pseudo-random initialization vector, that is also encrypted using the private key and then appended to information. I started working on this to add encryption to [PJON](https://github.com/gioblu/PJON) communications bus system. Cape is implemented in c++ and engineered to avoid any external dependency.
 
 ### How to use Cape
 
@@ -15,7 +15,7 @@ To encrypt a string:
   cape.encrypt(source, destination, 13);                 // Light stream cypher   
   cape.encrypt(source, destination, 13, random(0, 255)); // Strong encryption
 ```
-In `destination` it is saved the encrypted version of the string, with an additional byte at the end, used to encrypt data, called initialization vector, so be sure to define your destination buffer, always 1 byte longer:
+In `destination` it is saved the encrypted version of the string, with an additional byte at the end, used to encrypt data, called initialization vector (be sure to define your destination buffer always 1 byte longer):
 ```cpp  
   for(uint8_t i = 0; i < 14; i++)
     Serial.print(destination[i]);
@@ -24,7 +24,7 @@ If you want to come back from encrypted data to the original string:
 ```cpp  
     cape.decrypt(destination, source, 14);
 ```
-Print the original string as before to check that all is working and to get back "CRYPTMEPLEASE" string:
+Print the original string as before to check that all is working and to get back `CRYPTMEPLEASE`:
 ```cpp  
   for(uint8_t i = 0; i < 13; i++)
     Serial.print(source[i]);
