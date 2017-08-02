@@ -12,7 +12,7 @@ To encrypt a string:
 ```cpp  
   char source[] ="CRYPTMEPLEASE";
   char destination[14];
-  cape.encrypt(source, destination, 13);                 // Light stream cypher   
+  cape.hash(source, destination, 13);                    // Light stream cypher   
   cape.encrypt(source, destination, 13, random(0, 255)); // Strong encryption
 ```
 In `destination` it is saved the encrypted version of the string, with an additional byte at the end, used to encrypt data, called initialization vector (be sure to define your destination buffer always 1 byte longer):
