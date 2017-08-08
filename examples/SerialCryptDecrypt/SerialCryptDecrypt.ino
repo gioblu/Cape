@@ -20,7 +20,7 @@ void loop() {
 
   // Generate a random key
   for(int i = 0; i < 10; i++) {
-   key[i] = (uint8_t)random(0, 127);
+   key[i] = (uint8_t)random(0, 255);
    Serial.print(key[i]);
   }
 

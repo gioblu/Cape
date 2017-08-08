@@ -11,26 +11,30 @@ char destination[10];
 Cape cape(key, 10);
 
 void setup() {
-  
   Serial.begin(115200);
 };
 
 void loop() {
   Serial.print("Encryption key: ");
+
   // Generate a random key
   for(int i = 0; i < 10; i++) {
-   key[i] = (uint8_t)random(0, 127);
+   key[i] = (uint8_t)random(0, 255);
    Serial.print(key[i]);
   }
   Serial.println();
+
   // Set it as the encryption key
   cape.set_key(key, 10);
+
   // Hash and measure duration
   unsigned long time = micros();
   cape.hash(source, destination, 10);
   time = micros() - time;
+
   // Destroy original content
   for(int i = 0; i < 10; i++) source[i] = 0;
+
   // Output result
   Serial.print("ENCRYPTED:  ");
   for(int i = 0; i < 10; i++)
@@ -38,11 +42,12 @@ void loop() {
   Serial.print(" Computation time: ");
   Serial.print(time);
   Serial.println(" microseconds");
+
   // Hash to get back original string
   time = micros();
   cape.hash(destination, source, 10);
-  // Result is 1 byte longer to contain the added initialization vector
   time = micros() - time;
+
   // Output result
   Serial.print("ORIGINAL:   ");
   for(int i = 0; i < 10; i++)
@@ -50,8 +55,10 @@ void loop() {
   Serial.print(" Computation time: ");
   Serial.print(time);
   Serial.print(" microseconds");
+
   // Erase buffer
   for(int i = 0; i < 10; i++) destination[i] = 0;
+
   // Delay
   Serial.println();
   Serial.println();
