@@ -39,20 +39,19 @@ class Cape {
     /* Decrypt data:
        (max 65535 characters) */
     void decrypt(char *source, char *destination, uint16_t length) {
-      // Hash data without triyng to decode initialization vector at the end
+      // 1 - Hash data without triyng to decode initialization vector
       hash(source, destination, length);
-      // Now decrypt decoding initialization vector
       length = length - 1;
-      // 1 - Hash data with private key and reduced key
+      // 2 - Hash data with private key and reduced key
       for(uint16_t i = 0; i < length; i++)
         destination[i] ^=
           (_reduced_key ^ _key[(i ^ _reduced_key) % _key_length]);
-      // 2 - Hash last character to get back real initialization vector
+      // 3 - Hash last character to get back real initialization vector
       destination[length] = destination[length] ^ _reduced_key;
-      // 3 - Hash all content with the real initialization vector
+      // 4 - Hash all content with the real initialization vector
       for(uint16_t i = 0; i < length; i++)
         destination[i] ^= destination[length];
-      // Hash data with key (static reversible hashing)
+      // 5 - Hash data with key (static reversible hashing)
       hash(destination, destination, length);
     };
 
@@ -64,16 +63,14 @@ class Cape {
       uint16_t length,
       uint16_t iv
     ) {
-      // Hash data with key (static reversible hashing)
-      hash(source, destination, length);
-      // 1 - Generate pseudo-random initialization vector
       destination[length] = iv;
+      // 1 - Hash data with key (static reversible hashing)
+      hash(source, destination, length);
       // 2 - Hash result using initialization vector
       // 255 different versions of the same original string
       for(uint16_t i = 0; i < length; i++)
         destination[i] ^= destination[length];
       // 3 - Hash initialization vector with reduced private key
-      // Hide initialization vector
       destination[length] ^= _reduced_key;
       // 4 - further hash result with private key and reduced key
       // Original:                             "Hello world" or "Hehehehe"
@@ -82,7 +79,7 @@ class Cape {
       for(uint16_t i = 0; i < length; i++)
         destination[i] ^=
           (_reduced_key ^ _key[(i ^ _reduced_key) % _key_length]);
-      // Further hash result and initialization vector (without adding a new one)
+      // 5 - Further encrypt result and initialization vector
       hash(destination, destination, length + 1);
     };
 

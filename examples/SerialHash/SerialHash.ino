@@ -11,6 +11,7 @@ char destination[10];
 Cape cape(key, 10);
 
 void setup() {
+  
   Serial.begin(115200);
 };
 
