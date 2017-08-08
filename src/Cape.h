@@ -45,8 +45,8 @@ class Cape {
       length = length - 1;
       // 1 - Hash data with private key and reduced key
       for(uint16_t i = 0; i < length; i++)
-        destination[i] =
-          destination[i] ^ (i ^ _key[(i ^ _reduced_key) % _key_length]);
+        destination[i] ^=
+          (_reduced_key ^ _key[(i ^ _reduced_key) % _key_length]);
       // 2 - Hash last character to get back real initialization vector
       destination[length] = destination[length] ^ _reduced_key;
       // 3 - Hash all content with the real initialization vector
@@ -80,7 +80,8 @@ class Cape {
       // Hashing result at this state:         "$eUUr)DjdUa" or "#o{o{o{o"
       // Avoid exposing characters recurrence: "a5D#)W#<!{s" or "T&^:GQ?D"
       for(uint16_t i = 0; i < length; i++)
-        destination[i] ^= (i ^ _key[(i ^ _reduced_key) % _key_length]);
+        destination[i] ^=
+          (_reduced_key ^ _key[(i ^ _reduced_key) % _key_length]);
       // Further hash result and initialization vector (without adding a new one)
       hash(destination, destination, length + 1);
     };
