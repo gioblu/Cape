@@ -1,21 +1,35 @@
 Cape 2.0
 ====
-Cape is a string encryption library developed to offer efficient encryption on small microcontrollers. Cape implements a new, private key, XOR based, stream chipher algorithm on top of which is applied a pseudo-random initialization vector encryption method. Cape is implemented in c++ and engineered to avoid any external dependency.
+Cape is a string encryption library developed to offer efficient encryption on small microcontrollers. Cape implements a new, private key, public salt, XOR based, symmetric, stream chipher algorithm and also an asymmetric pseudo-random initialization vector encryption method. Cape is implemented in C++ and engineered to avoid any external dependency.
 
 ### How to use Cape
 
-Instantiate Cape passing the encryption key and its length.
+Instantiate Cape passing the encryption key and its length and optionally set its salt. The longer the key the higher is the coverage Cape can offer. To have an acceptable security the encryption key should always be at least as long as the maximum data length transmitted. The use of the optional salt higher security, enabling to keep using the same private key for a longer time, exchanging a new common salt once in a while. Salt must be exchanged encrypted (never transmit salt data in plain text).
 ```cpp  
+  // Instance name - Private key - Length
   Cape cape("YOUR-ENCRYPTION-KEY", 19);
+  // Optional Public salt (to be shared encrypted)
+  cape.salt = "S";                      
 ```
-To encrypt a string:
+To hash data call `hash` passing the data source buffer, the destination buffer and the data length:
 ```cpp  
   char source[] ="CRYPTMEPLEASE";
   char destination[14];
-  cape.hash(source, destination, 13);                    // Light stream cypher   
-  cape.encrypt(source, destination, 13, random(0, 255)); // Strong encryption
+  // Light symmetric stream cipher
+  cape.hash(source, destination, 13);    
+  // Hash again to get back original data
+  cape.hash(destination, source, 13);   
 ```
-In `destination` it is saved the encrypted version of the string, with an additional byte at the end, used to encrypt data, called initialization vector (be sure to define your destination buffer always 1 byte longer):
+To encrypt a string call `encrypt` passing the data source buffer, the destination buffer, the data length and a pseudo-random 8-bit integer used as initialization vector:
+```cpp  
+  char source[] ="CRYPTMEPLEASE";
+  char destination[14];
+  // Strong asymmetric encryption
+  cape.encrypt(source, destination, 13, random(0, 255));
+  // Call decrypt to get back original data
+  cape.decrypt(destination, source, 14);
+```
+In the destination buffer it is saved the encrypted data along with an additional byte at the end, used to encrypt data, called initialization vector (be sure to define your destination buffer always 1 byte longer):
 ```cpp  
   for(uint8_t i = 0; i < 14; i++)
     Serial.print(destination[i]);
@@ -24,7 +38,7 @@ If you want to come back from encrypted data to the original string:
 ```cpp  
     cape.decrypt(destination, source, 14);
 ```
-Print the original string as before to check that all is working and to get back `CRYPTMEPLEASE`:
+Print back the original `CRYPTMEPLEASE`:
 ```cpp  
   for(uint8_t i = 0; i < 13; i++)
     Serial.print(source[i]);
