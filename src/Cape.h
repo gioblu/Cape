@@ -21,9 +21,12 @@ limitations under the License. */
 
 class Cape {
   public:
+    char salt; // Salt used for encryption, can be exchanged if encrypted
+
     /* Instantiate Cape pass a pointer to the encryption key and its length:
        (max 65535 characters) */
-    Cape(char *key, uint16_t length = 0) {
+    Cape(char *key, uint16_t length, uint8_t s = 0) {
+      salt = s;
       _key = key;
       _key_length = length;
       compute_reduced_key(key, length);
@@ -43,15 +46,15 @@ class Cape {
       // 1 - Hash data without triyng to decode initialization vector
       hash(source, destination, length);
       length = length - 1;
-      // 2 - Hash data with private key and reduced key
+      // 2 - Hash data with private key, reduced key and salt
       for(uint16_t i = 0; i < length; i++)
         destination[i] ^=
-          (_reduced_key ^ _key[(i ^ _reduced_key) % _key_length]);
+          (_reduced_key ^ _key[(salt ^ i ^ _reduced_key) % _key_length]);
       // 3 - Hash last character to get back real initialization vector
-      destination[length] = destination[length] ^ _reduced_key;
+      destination[length] ^= (_reduced_key ^ salt);
       // 4 - Hash all content with the real initialization vector
       for(uint16_t i = 0; i < length; i++)
-        destination[i] ^= destination[length];
+        destination[i] ^= (destination[length] ^ salt);
       // 5 - Hash data with key (static reversible hashing)
       hash(destination, destination, length);
     };
@@ -70,16 +73,13 @@ class Cape {
       // 2 - Hash result using initialization vector
       // 255 different versions of the same original string
       for(uint16_t i = 0; i < length; i++)
-        destination[i] ^= destination[length];
+        destination[i] ^= (destination[length] ^ salt);
       // 3 - Hash initialization vector with reduced private key
-      destination[length] ^= _reduced_key;
-      // 4 - further hash result with private key and reduced key
-      // Original:                             "Hello world" or "Hehehehe"
-      // Hashing result at this state:         "$eUUr)DjdUa" or "#o{o{o{o"
-      // Avoid exposing characters recurrence: "a5D#)W#<!{s" or "T&^:GQ?D"
+      destination[length] ^= (_reduced_key ^ salt);
+      // 4 - further hash result with private key, reduced key and salt
       for(uint16_t i = 0; i < length; i++)
         destination[i] ^=
-          (_reduced_key ^ _key[(i ^ _reduced_key) % _key_length]);
+          (_reduced_key ^ _key[(salt ^ i ^ _reduced_key) % _key_length]);
       // 5 - Further encrypt result and initialization vector
       hash(destination, destination, length + 1);
     };
@@ -88,8 +88,12 @@ class Cape {
        (max 65535 characters) */
     void hash(char *source, char *destination, uint16_t length) {
       for(uint16_t i = 0; i < length; i++)
-        destination[i] =
-          _reduced_key ^ source[i] ^ _key[(i ^ _reduced_key) % _key_length];
+        destination[i] = (
+          _reduced_key ^
+          source[i]    ^
+          salt         ^
+          _key[(_reduced_key ^ salt ^ i) % _key_length]
+        );
     };
 
     /* Set or Change encryption key (max 65535 characters): */
