@@ -1,10 +1,9 @@
 Cape 2.0
 ====
-Cape is a string encryption library developed to offer efficient encryption on small microcontrollers. Cape implements a new, private key, public salt, XOR based, symmetric, stream chipher algorithm and also an asymmetric pseudo-random initialization vector encryption method. Cape is implemented in C++ and engineered to avoid any external dependency.
+Cape implements a new, private key, public salt, xor based, symmetric stream chipher along with a pseudo-random initialization vector asymmetric encryption algorithm, both originally developed to offer strong data security for limited microcontrollers.
 
 ### How to use Cape
-
-Instantiate Cape passing the encryption key and its length and optionally set its salt. The longer the key the higher is the coverage Cape can offer. To have an acceptable security the encryption key should always be at least as long as the maximum data length transmitted. The use of the optional salt higher security, enabling to keep using the same private key for a longer time, exchanging a new common salt once in a while. Salt must be exchanged encrypted (never transmit salt data in plain text).
+Instantiate Cape passing the encryption key, its length and optionally the salt. The longer the key the higher is the coverage Cape can offer. To have an acceptable level of security the encryption key should always be at least as long as the maximum data length transmitted. Using salt higher security, enabling to keep using the same private key for a longer time, exchanging a new common salt once in a while. Salt must be exchanged encrypted (never transmit salt data in plain text).
 ```cpp  
   // Instance name - Private key - Length
   Cape cape("YOUR-ENCRYPTION-KEY", 19);
@@ -13,20 +12,20 @@ Instantiate Cape passing the encryption key and its length and optionally set it
 ```
 To hash data call `hash` passing the data source buffer, the destination buffer and the data length:
 ```cpp  
-  char source[] ="CRYPTMEPLEASE";
-  char destination[14];
-  // Light symmetric stream cipher
+  char source[] = "CRYPTMEPLEASE";
+  char destination[13];
+  // Light symmetric stream cipher -> "I1C_8K)*8G}dB"
   cape.hash(source, destination, 13);    
-  // Hash again to get back original data
+  // Hash again to get back        -> "CRYPTMEPLEASE"
   cape.hash(destination, source, 13);   
 ```
 To encrypt a string call `encrypt` passing the data source buffer, the destination buffer, the data length and a pseudo-random 8-bit integer used as initialization vector:
 ```cpp  
   char source[] ="CRYPTMEPLEASE";
   char destination[14];
-  // Strong asymmetric encryption
+  // Strong asymmetric encryption  -> "09)*&{!@#*)I)"
   cape.encrypt(source, destination, 13, random(0, 255));
-  // Call decrypt to get back original data
+  // Call decrypt to get back      -> "CRYPTMEPLEASE"
   cape.decrypt(destination, source, 14);
 ```
 In the destination buffer it is saved the encrypted data along with an additional byte at the end, used to encrypt data, called initialization vector (be sure to define your destination buffer always 1 byte longer):

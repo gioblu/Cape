@@ -55,7 +55,7 @@ class Cape {
       // 4 - Hash all content with the real initialization vector
       for(uint16_t i = 0; i < length; i++)
         destination[i] ^= (destination[length] ^ salt);
-      // 5 - Hash data with key (static reversible hashing)
+      // 5 - Hash data with key (static symmetric hashing)
       hash(destination, destination, length);
     };
 
@@ -68,13 +68,14 @@ class Cape {
       uint16_t iv
     ) {
       destination[length] = iv;
-      // 1 - Hash data with key (static reversible hashing)
+      // 1 - Hash data with key (static symmetric hashing)
       hash(source, destination, length);
       // 2 - Hash result using initialization vector
       // 255 different versions of the same original string
+      // 65535 different versions of the same original string if using salt
       for(uint16_t i = 0; i < length; i++)
         destination[i] ^= (destination[length] ^ salt);
-      // 3 - Hash initialization vector with reduced private key
+      // 3 - Hash initialization vector with reduced key, private key and salt
       destination[length] ^= (_reduced_key ^ salt);
       // 4 - further hash result with private key, reduced key and salt
       for(uint16_t i = 0; i < length; i++)
@@ -84,7 +85,7 @@ class Cape {
       hash(destination, destination, length + 1);
     };
 
-    /* Static, reversible hashing using the private key key:
+    /* Symmetric chiper using private key, reduced key and optionally salt:
        (max 65535 characters) */
     void hash(char *source, char *destination, uint16_t length) {
       for(uint16_t i = 0; i < length; i++)
