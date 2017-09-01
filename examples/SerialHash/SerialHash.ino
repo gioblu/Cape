@@ -19,13 +19,15 @@ void loop() {
 
   // Generate a random key
   for(int i = 0; i < 10; i++) {
-   key[i] = (uint8_t)random(0, 255);
+   key[i] = random(0, 255);
    Serial.print(key[i]);
   }
   Serial.println();
 
   // Set it as the encryption key
   cape.set_key(key, 10);
+  // Set a new random salt (salt should be known on both sides)
+  cape.salt = random(0, 255);
 
   // Hash and measure duration
   unsigned long time = micros();
