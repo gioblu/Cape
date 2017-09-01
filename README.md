@@ -1,6 +1,6 @@
 Cape 2.0
 ====
-Cape implements a new, private key, public salt, xor based, symmetric stream chipher along with a pseudo-random initialization vector asymmetric encryption algorithm, both originally developed to offer strong data security for limited microcontrollers.
+Cape implements a new, private key / public salt, xor based, symmetric stream chipher along with a pseudo-random initialization vector asymmetric encryption algorithm, both originally developed to offer strong data security for limited microcontrollers.
 
 ### How to use Cape
 Instantiate Cape passing the encryption key, its length and optionally the salt. The longer the key the higher is the coverage Cape can offer. To have an acceptable level of security the encryption key should always be at least as long as the maximum data length transmitted. Using salt higher security, enabling to keep using the same private key for a longer time, exchanging a new common salt once in a while. Salt must be exchanged encrypted (never transmit salt data in plain text).
@@ -28,20 +28,8 @@ To encrypt a string call `encrypt` passing the data source buffer, the destinati
   // Call decrypt to get back      -> "CRYPTMEPLEASE"
   cape.decrypt(destination, source, 14);
 ```
-In the destination buffer it is saved the encrypted data along with an additional byte at the end, used to encrypt data, called initialization vector (be sure to define your destination buffer always 1 byte longer):
-```cpp  
-  for(uint8_t i = 0; i < 14; i++)
-    Serial.print(destination[i]);
-```
-If you want to come back from encrypted data to the original string:
-```cpp  
-    cape.decrypt(destination, source, 14);
-```
-Print back the original `CRYPTMEPLEASE`:
-```cpp  
-  for(uint8_t i = 0; i < 13; i++)
-    Serial.print(source[i]);
-```
+In the destination buffer it is saved the encrypted data along with a one byte initialization vector at the end (be sure to define your destination buffer always 1 byte longer).
+
 If you need to change the encryption key after instantiation call `set_key` passing the new key and its length:
 ```cpp  
   cape.set_key("YOUR-ENCRYPTION-KEY", 19);
