@@ -32,8 +32,9 @@ class Cape {
     /* Compute a 1 byte version of the encryption key */
     void compute_reduced_key(char *key, uint16_t length) {
       _reduced_key = 0;
+      // Reduced key computation
       for(uint16_t i = 0; i < length; i++)
-         _reduced_key ^= key[i];
+        _reduced_key ^= (key[i] << (i % 8));
     };
 
     /* Decrypt data:
