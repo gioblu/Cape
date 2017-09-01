@@ -16,6 +16,7 @@ Cape  KEYWORD1
 hash            KEYWORD2
 decrypt         KEYWORD2
 encrypt         KEYWORD2
+salt            KEYWORD2
 set_key         KEYWORD2
 
 #######################################
