@@ -103,7 +103,7 @@ class Cape {
       compute_reduced_key(key, length);
     };
   private:
-    char * _key;
-    char   _key_length;
-    char   _reduced_key;
+    char *   _key;           // Keep private and safe
+    uint16_t _key_length;    // Keep private and safe
+    char     _reduced_key;   // Keep private and safe
 };
