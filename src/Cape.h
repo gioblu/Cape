@@ -45,17 +45,16 @@ class Cape {
     void decrypt(char *source, char *destination, uint16_t length) {
       // 1 - Hash data without triyng to decode initialization vector
       hash(source, destination, length);
+      // 2 - Decrypt initialization vector
       length = length - 1;
-      // 2 - Hash data with private key, reduced key and salt
-      for(uint16_t i = 0; i < length; i++)
-        destination[i] ^=
-          (_reduced_key ^ _key[(salt ^ i ^ _reduced_key) % _key_length]);
-      // 3 - Hash last character to get back real initialization vector
       destination[length] ^= (_reduced_key ^ salt);
-      // 4 - Hash all content with the real initialization vector
+      // 3 - Decrypt data with private key, reduced key and salt
       for(uint16_t i = 0; i < length; i++)
-        destination[i] ^= (destination[length] ^ salt);
-      // 5 - Hash data with key (static symmetric hashing)
+        destination[i] ^= (
+          (destination[length] ^ i) ^
+          _key[(salt ^ i ^ _reduced_key) % _key_length]
+        );
+      // 4 - Hash data with key (static symmetric hashing)
       hash(destination, destination, length);
     };
 
@@ -70,18 +69,15 @@ class Cape {
       destination[length] = iv;
       // 1 - Hash data with key (static symmetric hashing)
       hash(source, destination, length);
-      // 2 - Hash result using initialization vector
-      // 255 different versions of the same original string
-      // 65535 different versions of the same original string if using salt
+      // 2 - Encrypt data with private key, reduced key and salt
       for(uint16_t i = 0; i < length; i++)
-        destination[i] ^= (destination[length] ^ salt);
-      // 3 - Hash initialization vector with reduced key, private key and salt
+        destination[i] ^= (
+          (destination[length] ^ i) ^
+          _key[(salt ^ i ^ _reduced_key) % _key_length]
+        );
+      // 3 - Encrypt initialization vector using reduced key and salt
       destination[length] ^= (_reduced_key ^ salt);
-      // 4 - further hash result with private key, reduced key and salt
-      for(uint16_t i = 0; i < length; i++)
-        destination[i] ^=
-          (_reduced_key ^ _key[(salt ^ i ^ _reduced_key) % _key_length]);
-      // 5 - Further encrypt result and initialization vector
+      // 4 - Further encrypt result and initialization vector
       hash(destination, destination, length + 1);
     };
 
@@ -90,9 +86,7 @@ class Cape {
     void hash(char *source, char *destination, uint16_t length) {
       for(uint16_t i = 0; i < length; i++)
         destination[i] = (
-          _reduced_key ^
-          source[i]    ^
-          salt         ^
+          (_reduced_key ^ source[i] ^ salt ^ i) ^
           _key[(_reduced_key ^ salt ^ i) % _key_length]
         );
     };
