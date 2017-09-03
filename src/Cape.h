@@ -64,7 +64,7 @@ class Cape {
       char *source,
       char *destination,
       uint16_t length,
-      uint16_t iv
+      uint8_t iv
     ) {
       destination[length] = iv;
       // 1 - Hash data with key (static symmetric hashing)
