@@ -44,7 +44,7 @@ If you need to run Cape on a real time operative system use [cape-js](https://gi
    |      |_____| |_____| |_____
    |_____ |     | |       |_____  version 2.0
 
-Cape Copyright (c) 2012-2017, Giovanni Blu Mitolo All rights reserved.
+Cape Copyright (c) 2012-2018, Giovanni Blu Mitolo All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
