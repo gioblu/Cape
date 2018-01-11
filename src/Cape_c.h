@@ -31,7 +31,13 @@ typedef struct {
 
 void cape_init(cape_t *cape, char *key, uint16_t length);
 void cape_init(cape_t *cape, char *key, uint16_t length, uint8_t s);
-void cape_hash(cape_t *cape, char *source, char *destination, uint16_t length);
+
+void cape_hash(
+  cape_t *cape,
+  char *source,
+  char *destination,
+  uint16_t length
+);
 
 void cape_encrypt(
   cape_t *cape,
@@ -84,7 +90,12 @@ void cape_hash(
 
 /* Decrypt data:
    (max 65535 characters) */
-void cape_decrypt(cape_t *cape, char *source, char *destination, uint16_t length) {
+void cape_decrypt(
+  cape_t *cape,
+  char *source,
+  char *destination,
+  uint16_t length
+) {
   // 1 - Hash data without triyng to decode initialization vector
   cape_hash(cape, source, destination, length);
   // 2 - Decrypt initialization vector
