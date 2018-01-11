@@ -29,8 +29,7 @@ typedef struct {
   char reduced_key;   // Computed reduced key
 } cape_t;
 
-void cape_init(cape_t *cape, char *key, uint16_t length);
-void cape_init(cape_t *cape, char *key, uint16_t length, uint8_t s);
+void cape_init(cape_t *cape, char *key, uint16_t length, uint8_t salt);
 
 void cape_hash(
   cape_t *cape,
@@ -62,16 +61,12 @@ char cape_compute_reduced_key(char *key, uint16_t length) {
   return reduced_key;
 };
 
-void cape_init(cape_t *cape, char *key, uint16_t length) {
-  cape_init(cape_init, key, 0);
-}
-
-void cape_init(cape_t *cape, char *key, uint16_t length, uint8_t salt) {
+void cape_init(cape_t *cape, char *key, uint16_t length, uint8_t salt = 0) {
   cape->salt = salt;
   cape->key = key;
   cape->length = length;
   cape->reduced_key = cape_compute_reduced_key(key, length);
-}
+};
 
 /* Symmetric chiper using private key, reduced key and optionally salt:
    (max 65535 characters) */
