@@ -30,7 +30,7 @@ class Cape {
       _key = key;
       _key_length = length;
       compute_reduced_key(key, length);
-    };
+    }
 
     /* Compute a 1 byte version of the encryption key */
     void compute_reduced_key(char *key, uint16_t length) {
@@ -38,7 +38,7 @@ class Cape {
       // Reduced key computation
       for(uint16_t i = 0; i < length; i++)
         _reduced_key ^= (key[i] << (i % 8));
-    };
+    }
 
     /* Decrypt data:
        (max 65535 characters) */
@@ -56,7 +56,7 @@ class Cape {
         );
       // 4 - Hash data with key (static symmetric hashing)
       hash(destination, destination, length);
-    };
+    }
 
     /* Stream chipher, private key, initialization vector based encryption
        algorithm (max 65535 characters):  */
@@ -79,7 +79,7 @@ class Cape {
       destination[length] ^= (_reduced_key ^ salt);
       // 4 - Further encrypt result and initialization vector
       hash(destination, destination, length + 1);
-    };
+    }
 
     /* Symmetric chiper using private key, reduced key and optionally salt:
        (max 65535 characters) */
@@ -89,14 +89,15 @@ class Cape {
           (_reduced_key ^ source[i] ^ salt ^ i) ^
           _key[(_reduced_key ^ salt ^ i) % _key_length]
         );
-    };
+    }
 
     /* Set or Change encryption key (max 65535 characters): */
     void set_key(char *key, uint16_t length) {
       _key = key;
       _key_length = length;
       compute_reduced_key(key, length);
-    };
+    }
+
   private:
     char *   _key;           // Keep private and safe
     uint16_t _key_length;    // Keep private and safe
