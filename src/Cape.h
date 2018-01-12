@@ -43,19 +43,19 @@ class Cape {
     /* Decrypt data:
        (max 65534 characters) */
     void decrypt(char *source, char *destination, uint16_t length) {
-      // 1 - Hash data without triyng to decode initialization vector
-      hash(source, destination, length);
-      // 2 - Decrypt initialization vector
-      length = length - 1;
-      destination[length] ^= (_reduced_key ^ salt);
-      // 3 - Decrypt data with private key, reduced key and salt
-      for(uint16_t i = 0; i < length; i++)
-        destination[i] ^= (
-          (destination[length] ^ i) ^
-          _key[(salt ^ i ^ _reduced_key) % _key_length]
-        );
-      // 4 - Hash data with key (static symmetric hashing)
-      hash(destination, destination, length);
+      uint8_t lastIndex = length - 1;
+
+      // 1. Pre-hash salt and reduced key
+      uint8_t saltKey = salt ^ _reduced_key;
+
+      // 2. Decrypt initialisation vector using key, reduced key and salt
+      uint8_t iv = source[lastIndex] ^ lastIndex ^
+        _key[(lastIndex ^ saltKey) % _key_length];
+
+      // 3. Decrypt source data using key, initialisation vector, reduced key and salt
+      for (uint16_t i = 0; i < lastIndex; ++i)
+        destination[i] = source[i] ^ iv ^ i ^
+          _key[(saltKey ^ i) % _key_length];
     }
 
     /* Stream cipher, private key, initialization vector based encryption
@@ -66,19 +66,17 @@ class Cape {
       uint16_t length,
       uint8_t iv
     ) {
-      destination[length] = iv;
-      // 1 - Hash data with key (static symmetric hashing)
-      hash(source, destination, length);
-      // 2 - Encrypt data with private key, reduced key and salt
-      for(uint16_t i = 0; i < length; i++)
-        destination[i] ^= (
-          (destination[length] ^ i) ^
-          _key[(salt ^ i ^ _reduced_key) % _key_length]
-        );
-      // 3 - Encrypt initialization vector using reduced key and salt
-      destination[length] ^= (_reduced_key ^ salt);
-      // 4 - Further encrypt result and initialization vector
-      hash(destination, destination, length + 1);
+      // 1. Pre-hash salt and reduced key
+      uint8_t saltKey = salt ^ _reduced_key;
+
+      // 2. Encrypt initialisation vector using key, reduced key and salt
+      destination[length] = iv ^ length ^
+        _key[(length ^ saltKey) % _key_length];
+
+      // 3. Encrypt source data using key, initialisation vector, reduced key and salt
+      for (uint16_t i = 0; i < length; ++i)
+        destination[i] = source[i] ^ iv ^ i ^
+          _key[(saltKey ^ i) % _key_length];
     }
 
     /* Symmetric cipher using private key, reduced key and optionally salt:
