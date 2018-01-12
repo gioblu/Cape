@@ -84,11 +84,12 @@ class Cape {
     /* Symmetric cipher using private key, reduced key and optionally salt:
        (max 65534 characters) */
     void hash(char *source, char *destination, uint16_t length) {
-      for(uint16_t i = 0; i < length; i++)
-        destination[i] = (
-          (_reduced_key ^ source[i] ^ salt ^ i) ^
-          _key[(_reduced_key ^ salt ^ i) % _key_length]
-        );
+      uint8_t saltKey = salt ^ _reduced_key;
+      for(uint16_t i = 0; i < length; i++) {
+        uint8_t iSaltKey = saltKey ^ i;
+        destination[i] = source[i] ^ iSaltKey ^
+          _key[iSaltKey % _key_length];
+        }
     }
 
     /* Set or Change encryption key (max 65534 characters): */

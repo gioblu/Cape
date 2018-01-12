@@ -76,11 +76,12 @@ void cape_hash(
   char *destination,
   uint16_t length
 ) {
-  for(uint16_t i = 0; i < length; i++)
-    destination[i] = (
-      (cape->reduced_key ^ source[i] ^ cape->salt ^ i) ^
-      cape->key[(cape->reduced_key ^ cape->salt ^ i) % cape->length]
-    );
+  uint8_t saltKey = cape->salt ^ cape->reduced_key;
+  for(uint16_t i = 0; i < length; i++) {
+    uint8_t iSaltKey = saltKey ^ i;
+    destination[i] = source[i] ^ iSaltKey ^
+      cape->key[iSaltKey % cape->length];
+    }
 };
 
 /* Decrypt data:
