@@ -68,46 +68,48 @@ void cape_init(cape_t *cape, char *key, uint16_t length, uint8_t salt = 0) {
   cape->reduced_key = cape_compute_reduced_key(key, length);
 };
 
-/* Symmetric chiper using private key, reduced key and optionally salt:
-   (max 65535 characters) */
+/* Symmetric cipher using private key, reduced key and optionally salt:
+   (max 65534 characters) */
 void cape_hash(
   cape_t *cape,
   char *source,
   char *destination,
   uint16_t length
 ) {
-  for(uint16_t i = 0; i < length; i++)
-    destination[i] = (
-      (cape->reduced_key ^ source[i] ^ cape->salt ^ i) ^
-      cape->key[(cape->reduced_key ^ cape->salt ^ i) % cape->length]
-    );
+  uint8_t saltKey = cape->salt ^ cape->reduced_key;
+  for(uint16_t i = 0; i < length; i++) {
+    uint8_t iSaltKey = saltKey ^ i;
+    destination[i] = source[i] ^ iSaltKey ^
+      cape->key[iSaltKey % cape->length];
+    }
 };
 
 /* Decrypt data:
-   (max 65535 characters) */
+   (max 65534 characters) */
 void cape_decrypt(
   cape_t *cape,
   char *source,
   char *destination,
   uint16_t length
 ) {
-  // 1 - Hash data without triyng to decode initialization vector
-  cape_hash(cape, source, destination, length);
-  // 2 - Decrypt initialization vector
-  length = length - 1;
-  destination[length] ^= (cape->reduced_key ^ cape->salt);
-  // 3 - Decrypt data with private key, reduced key and salt
-  for(uint16_t i = 0; i < length; i++)
-    destination[i] ^= (
-      (destination[length] ^ i) ^
-      cape->key[(cape->salt ^ i ^ cape->reduced_key) % cape->length]
-    );
-  // 4 - Hash data with key (static symmetric hashing)
-  cape_hash(cape, destination, destination, length);
+  uint8_t lastIndex = length - 1;
+
+  // 1. Pre-hash salt and reduced key
+  uint8_t saltKey = salt ^ _reduced_key;
+
+  // 2. Decrypt initialisation vector using key, reduced key and salt
+  uint8_t iv = source[lastIndex] ^ lastIndex ^
+    _key[(lastIndex ^ saltKey) % _key_length];
+
+  // 3. Decrypt source data using key, initialisation vector, reduced key and salt
+  for (uint16_t i = 0; i < lastIndex; ++i)
+    destination[i] = source[i] ^ iv ^ i ^
+      _key[(saltKey ^ i) % _key_length];
+    }
 };
 
-/* Stream chipher, private key, initialization vector based encryption
-   algorithm (max 65535 characters):  */
+/* Stream cipher, private key, initialization vector based encryption
+   algorithm (max 65534 characters):  */
 void cape_encrypt(
   cape_t *cape,
   char *source,
@@ -115,17 +117,15 @@ void cape_encrypt(
   uint16_t length,
   uint8_t iv
 ) {
-  destination[length] = iv;
-  // 1 - Hash data with key (static symmetric hashing)
-  cape_hash(cape, source, destination, length);
-  // 2 - Encrypt data with private key, reduced key and salt
-  for(uint16_t i = 0; i < length; i++)
-    destination[i] ^= (
-      (destination[length] ^ i) ^
-      cape->key[(cape->salt ^ i ^ cape->reduced_key) % cape->length]
-    );
-  // 3 - Encrypt initialization vector using reduced key and salt
-  destination[length] ^= (cape->reduced_key ^ cape->salt);
-  // 4 - Further encrypt result and initialization vector
-  cape_hash(cape, destination, destination, length + 1);
+  // 1. Pre-hash salt and reduced key
+  uint8_t saltKey = salt ^ _reduced_key;
+
+  // 2. Encrypt initialisation vector using key, reduced key and salt
+  destination[length] = iv ^ length ^
+    _key[(lastIndex ^ saltKey) % _key_length];
+
+  // 3. Encrypt source data using key, initialisation vector, reduced key and salt
+  for (uint16_t i = 0; i < length; ++i)
+    destination[i] = source[i] ^ iv ^ i ^
+      _key[(saltKey ^ i) % _key_length];
 };

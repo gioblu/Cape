@@ -1,6 +1,6 @@
 Cape 2.0
 ====
-Cape implements a new, private key / public salt, xor based, symmetric stream chipher along with a pseudo-random initialization vector asymmetric encryption algorithm, both originally developed to offer strong data security for limited microcontrollers.
+Cape implements a new, private key / public salt, xor based, symmetric stream cipher along with a pseudo-random initialization vector asymmetric encryption algorithm, both originally developed to offer strong data security for limited microcontrollers.
 
 ### How to use Cape
 Instantiate Cape passing the encryption key, its length and optionally the salt. The longer is the key the higher is the coverage `Cape` can offer. To have an acceptable level of security the encryption key should always be at least as long as the maximum data length transmitted. Adding salt higher data security, enabling to keep the same private key for a longer time, exchanging a new common salt once in a while if necessary. Salt must be exchanged encrypted (never transmit salt data in plain text).
