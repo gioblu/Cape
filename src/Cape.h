@@ -58,7 +58,7 @@ class Cape {
       hash(destination, destination, length);
     }
 
-    /* Stream chipher, private key, initialization vector based encryption
+    /* Stream cipher, private key, initialization vector based encryption
        algorithm (max 65534 characters):  */
     void encrypt(
       char *source,
