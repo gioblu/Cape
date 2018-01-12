@@ -69,7 +69,7 @@ void cape_init(cape_t *cape, char *key, uint16_t length, uint8_t salt = 0) {
 };
 
 /* Symmetric chiper using private key, reduced key and optionally salt:
-   (max 65535 characters) */
+   (max 65534 characters) */
 void cape_hash(
   cape_t *cape,
   char *source,
@@ -84,7 +84,7 @@ void cape_hash(
 };
 
 /* Decrypt data:
-   (max 65535 characters) */
+   (max 65534 characters) */
 void cape_decrypt(
   cape_t *cape,
   char *source,
@@ -107,7 +107,7 @@ void cape_decrypt(
 };
 
 /* Stream chipher, private key, initialization vector based encryption
-   algorithm (max 65535 characters):  */
+   algorithm (max 65534 characters):  */
 void cape_encrypt(
   cape_t *cape,
   char *source,

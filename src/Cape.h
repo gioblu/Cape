@@ -24,7 +24,7 @@ class Cape {
     char salt; // Salt used for encryption, can be exchanged if encrypted
 
     /* Instantiate Cape pass a pointer to the encryption key and its length:
-       (max 65535 characters) */
+       (max 65534 characters) */
     Cape(char *key, uint16_t length, uint8_t s = 0) {
       salt = s;
       _key = key;
@@ -41,7 +41,7 @@ class Cape {
     }
 
     /* Decrypt data:
-       (max 65535 characters) */
+       (max 65534 characters) */
     void decrypt(char *source, char *destination, uint16_t length) {
       // 1 - Hash data without triyng to decode initialization vector
       hash(source, destination, length);
@@ -59,7 +59,7 @@ class Cape {
     }
 
     /* Stream chipher, private key, initialization vector based encryption
-       algorithm (max 65535 characters):  */
+       algorithm (max 65534 characters):  */
     void encrypt(
       char *source,
       char *destination,
@@ -82,7 +82,7 @@ class Cape {
     }
 
     /* Symmetric chiper using private key, reduced key and optionally salt:
-       (max 65535 characters) */
+       (max 65534 characters) */
     void hash(char *source, char *destination, uint16_t length) {
       for(uint16_t i = 0; i < length; i++)
         destination[i] = (
@@ -91,7 +91,7 @@ class Cape {
         );
     }
 
-    /* Set or Change encryption key (max 65535 characters): */
+    /* Set or Change encryption key (max 65534 characters): */
     void set_key(char *key, uint16_t length) {
       _key = key;
       _key_length = length;
