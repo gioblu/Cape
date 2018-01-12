@@ -68,7 +68,7 @@ void cape_init(cape_t *cape, char *key, uint16_t length, uint8_t salt = 0) {
   cape->reduced_key = cape_compute_reduced_key(key, length);
 };
 
-/* Symmetric chiper using private key, reduced key and optionally salt:
+/* Symmetric cipher using private key, reduced key and optionally salt:
    (max 65534 characters) */
 void cape_hash(
   cape_t *cape,

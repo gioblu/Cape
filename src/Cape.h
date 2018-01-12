@@ -81,7 +81,7 @@ class Cape {
       hash(destination, destination, length + 1);
     }
 
-    /* Symmetric chiper using private key, reduced key and optionally salt:
+    /* Symmetric cipher using private key, reduced key and optionally salt:
        (max 65534 characters) */
     void hash(char *source, char *destination, uint16_t length) {
       for(uint16_t i = 0; i < length; i++)
