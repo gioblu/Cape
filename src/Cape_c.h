@@ -76,7 +76,7 @@ void cape_decrypt(
   char *destination,
   uint16_t length
 ) {
-  uint8_t index = length - 1;
+  uint16_t index = length - 1;
   // 1 Compute salty reduced key
   uint8_t srk = cape->salt ^ cape->reduced_key;
   // 2 Decrypt initialization vector using key and salty reduced key
