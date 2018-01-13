@@ -28,7 +28,7 @@ To encrypt a string call `encrypt` passing the data source buffer, the destinati
   // Call decrypt to get back      -> "CRYPTMEPLEASE"
   cape.decrypt(destination, source, 14);
 ```
-In the destination buffer it is saved the encrypted data along with a one byte initialization vector at the end (be sure to define your destination buffer always 1 byte longer).
+In the destination buffer it is saved the encrypted data along with a one byte initialization vector at the end, be sure to define your destination buffer always 1 byte longer and not to exceed 65534 data length.
 
 If you need to change the encryption key after instantiation call `set_key` passing the new key and its length:
 ```cpp  
