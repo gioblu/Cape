@@ -5,6 +5,9 @@
 
 Cape Copyright (c) 2012-2018, Giovanni Blu Mitolo All rights reserved.
 
+Cape implementation optimized by Pharap github user
+Cape implementation ported in c and python by colinta github user
+
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -21,16 +24,16 @@ limitations under the License. */
 
 class Cape {
   public:
-    char salt; // Salt used for encryption, can be exchanged if encrypted
+    char salt; // Salt used for encryption (exchange encrypted)
 
-    /* Instantiate Cape pass a pointer to the encryption key and its length:
-       (max 65534 characters) */
+    /* Instantiate Cape pass a pointer to the encryption key, its length
+       and optionally salt: (max 65534 characters) */
     Cape(char *key, uint16_t length, uint8_t s = 0) {
       salt = s;
       _key = key;
       _key_length = length;
       compute_reduced_key(key, length);
-    }
+    };
 
     /* Compute a 1 byte version of the encryption key */
     void compute_reduced_key(char *key, uint16_t length) {
@@ -38,25 +41,20 @@ class Cape {
       // Reduced key computation
       for(uint16_t i = 0; i < length; i++)
         _reduced_key ^= (key[i] << (i % 8));
-    }
+    };
 
     /* Decrypt data:
        (max 65534 characters) */
     void decrypt(char *source, char *destination, uint16_t length) {
-      uint8_t lastIndex = length - 1;
-
-      // 1. Pre-hash salt and reduced key
-      uint8_t saltKey = salt ^ _reduced_key;
-
-      // 2. Decrypt initialisation vector using key, reduced key and salt
-      uint8_t iv = source[lastIndex] ^ lastIndex ^
-        _key[(lastIndex ^ saltKey) % _key_length];
-
-      // 3. Decrypt source data using key, initialisation vector, reduced key and salt
-      for (uint16_t i = 0; i < lastIndex; ++i)
-        destination[i] = source[i] ^ iv ^ i ^
-          _key[(saltKey ^ i) % _key_length];
-    }
+      uint8_t index = length - 1;
+      // 1 Compute salty reduced key or srk
+      char srk = salt ^ _reduced_key;
+      // 2 Decrypt initialization vector and salty reduced key or srk
+      uint8_t iv = source[index] ^ index ^ _key[(index ^ srk) % _key_length];
+      // 3 Decrypt data with key, initialization vector and salty reduced key
+      for(uint16_t i = 0; i < index; ++i)
+        destination[i] = source[i] ^ iv ^ i ^ _key[(srk ^ i) % _key_length];
+    };
 
     /* Stream cipher, private key, initialization vector based encryption
        algorithm (max 65534 characters):  */
@@ -66,36 +64,33 @@ class Cape {
       uint16_t length,
       uint8_t iv
     ) {
-      // 1. Pre-hash salt and reduced key
-      uint8_t saltKey = salt ^ _reduced_key;
+      // 1 Compute salty reduced key or srk
+      char srk = salt ^ _reduced_key;
+      // 2 Encrypt initialization vector using key, salty reduced key or srk
+      destination[length] = iv ^ length ^ _key[(length ^ srk) % _key_length];
+      // 3 Encrypt data using key, initialization vector and salty reduced key
+      for(uint16_t i = 0; i < length; ++i)
+        destination[i] = source[i] ^ iv ^ i ^ _key[(srk ^ i) % _key_length];
+    };
 
-      // 2. Encrypt initialisation vector using key, reduced key and salt
-      destination[length] = iv ^ length ^
-        _key[(length ^ saltKey) % _key_length];
-
-      // 3. Encrypt source data using key, initialisation vector, reduced key and salt
-      for (uint16_t i = 0; i < length; ++i)
-        destination[i] = source[i] ^ iv ^ i ^
-          _key[(saltKey ^ i) % _key_length];
-    }
-
-    /* Symmetric cipher using private key, reduced key and optionally salt:
+    /* Symmetric cipher using private key and salty reduced key or srk:
        (max 65534 characters) */
     void hash(char *source, char *destination, uint16_t length) {
-      uint8_t saltKey = salt ^ _reduced_key;
+      // 1 Compute salty reduced key or srk
+      char srk = salt ^ _reduced_key;
+      // 2 Hash data
       for(uint16_t i = 0; i < length; i++) {
-        uint8_t iSaltKey = saltKey ^ i;
-        destination[i] = source[i] ^ iSaltKey ^
-          _key[iSaltKey % _key_length];
-        }
-    }
+        uint8_t srki = srk ^ i;
+        destination[i] = source[i] ^ srki ^ _key[srki % _key_length];
+      }
+    };
 
     /* Set or Change encryption key (max 65534 characters): */
     void set_key(char *key, uint16_t length) {
       _key = key;
       _key_length = length;
       compute_reduced_key(key, length);
-    }
+    };
 
   private:
     char *   _key;           // Keep private and safe

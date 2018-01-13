@@ -5,8 +5,8 @@
 
 Cape Copyright (c) 2012-2017, Giovanni Blu Mitolo All rights reserved.
 
-Cape_c ported by colinta github user is designed for use in projects
-lacking C++ support.
+Cape implementation optimized by Pharap github user
+Cape implementation ported in c and python by colinta github user
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -68,22 +68,6 @@ void cape_init(cape_t *cape, char *key, uint16_t length, uint8_t salt = 0) {
   cape->reduced_key = cape_compute_reduced_key(key, length);
 };
 
-/* Symmetric cipher using private key, reduced key and optionally salt:
-   (max 65534 characters) */
-void cape_hash(
-  cape_t *cape,
-  char *source,
-  char *destination,
-  uint16_t length
-) {
-  uint8_t saltKey = cape->salt ^ cape->reduced_key;
-  for(uint16_t i = 0; i < length; i++) {
-    uint8_t iSaltKey = saltKey ^ i;
-    destination[i] = source[i] ^ iSaltKey ^
-      cape->key[iSaltKey % cape->length];
-    }
-};
-
 /* Decrypt data:
    (max 65534 characters) */
 void cape_decrypt(
@@ -92,20 +76,16 @@ void cape_decrypt(
   char *destination,
   uint16_t length
 ) {
-  uint8_t lastIndex = length - 1;
-
-  // 1. Pre-hash salt and reduced key
-  uint8_t saltKey = salt ^ _reduced_key;
-
-  // 2. Decrypt initialisation vector using key, reduced key and salt
-  uint8_t iv = source[lastIndex] ^ lastIndex ^
-    _key[(lastIndex ^ saltKey) % _key_length];
-
-  // 3. Decrypt source data using key, initialisation vector, reduced key and salt
-  for (uint16_t i = 0; i < lastIndex; ++i)
+  uint8_t index = length - 1;
+  // 1 Compute salty reduced key
+  uint8_t srk = cape->salt ^ cape->reduced_key;
+  // 2 Decrypt initialization vector using key and salty reduced key
+  uint8_t iv = source[index] ^ index ^
+    cape->key[(index ^ srk) % cape->length];
+  // 3 Decrypt source using key, initialization vector and salty reduced key
+  for(uint16_t i = 0; i < index; ++i)
     destination[i] = source[i] ^ iv ^ i ^
-      _key[(saltKey ^ i) % _key_length];
-    }
+      cape->key[(srk ^ i) % cape->length];
 };
 
 /* Stream cipher, private key, initialization vector based encryption
@@ -117,15 +97,28 @@ void cape_encrypt(
   uint16_t length,
   uint8_t iv
 ) {
-  // 1. Pre-hash salt and reduced key
-  uint8_t saltKey = salt ^ _reduced_key;
-
-  // 2. Encrypt initialisation vector using key, reduced key and salt
+  // 1 Compute salty reduced key or srk
+  uint8_t srk = cape->salt ^ cape->reduced_key;
+  // 2 Encrypt initialization vector using key and salty reduced key or srk
   destination[length] = iv ^ length ^
-    _key[(lastIndex ^ saltKey) % _key_length];
-
-  // 3. Encrypt source data using key, initialisation vector, reduced key and salt
-  for (uint16_t i = 0; i < length; ++i)
+    cape->key[(length ^ srk) % cape->length];
+  // 3 Encrypt source using key, initialization vector and salty reduced key
+  for(uint16_t i = 0; i < length; ++i)
     destination[i] = source[i] ^ iv ^ i ^
-      _key[(saltKey ^ i) % _key_length];
+      cape->key[(srk ^ i) % cape->length];
+};
+
+/* Symmetric cipher using private key, reduced key and optionally salt:
+   (max 65534 characters) */
+void cape_hash(
+  cape_t *cape,
+  char *source,
+  char *destination,
+  uint16_t length
+) {
+  uint8_t srk = cape->salt ^ cape->reduced_key;
+  for(uint16_t i = 0; i < length; i++) {
+    uint8_t isrk = srk ^ i;
+    destination[i] = source[i] ^ isrk ^ cape->key[isrk % cape->length];
+  }
 };
