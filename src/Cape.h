@@ -1,10 +1,8 @@
-/*
-    _____  _____   _____   _____
+/*  _____  _____   _____   _____
    |      |_____| |_____| |_____
    |_____ |     | |       |_____  version 2.0
 
 Cape Copyright (c) 2012-2018, Giovanni Blu Mitolo All rights reserved.
-
 Cape implementation optimized by Pharap github user
 Cape implementation ported in c and python by colinta github user
 
@@ -25,9 +23,7 @@ limitations under the License. */
 class Cape {
   public:
     char salt; // Salt used for encryption (exchange encrypted)
-
-    /* Instantiate Cape pass a pointer to the encryption key, its length
-       and optionally salt: (max 65534 characters) */
+    /* Instantiate Cape passing a key, its length (max 65535) and salt: */
     Cape(char *key, uint16_t length, uint8_t s = 0) {
       salt = s;
       _key = key;
@@ -43,8 +39,7 @@ class Cape {
         _reduced_key ^= (key[i] << (i % 8));
     };
 
-    /* Decrypt data:
-       (max 65534 characters) */
+    /* Decrypt data: (max length 65535 characters) */
     void decrypt(char *source, char *destination, uint16_t length) {
       uint16_t index = length - 1;
       // 1 Compute salty reduced key or srk
@@ -57,7 +52,7 @@ class Cape {
     };
 
     /* Stream cipher, private key, initialization vector based encryption
-       algorithm (max 65534 characters):  */
+       algorithm (max length 65534 characters):  */
     void encrypt(
       char *source,
       char *destination,
@@ -73,8 +68,8 @@ class Cape {
         destination[i] = source[i] ^ iv ^ i ^ _key[(srk ^ i) % _key_length];
     };
 
-    /* Symmetric cipher using private key and salty reduced key or srk:
-       (max 65534 characters) */
+    /* Symmetric cipher using private key and salty reduced key:
+       (max 65535 characters) */
     void hash(char *source, char *destination, uint16_t length) {
       // 1 Compute salty reduced key or srk
       char srk = salt ^ _reduced_key;
