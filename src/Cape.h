@@ -46,7 +46,7 @@ class Cape {
     /* Decrypt data:
        (max 65534 characters) */
     void decrypt(char *source, char *destination, uint16_t length) {
-      uint8_t index = length - 1;
+      uint16_t index = length - 1;
       // 1 Compute salty reduced key or srk
       char srk = salt ^ _reduced_key;
       // 2 Decrypt initialization vector and salty reduced key or srk
