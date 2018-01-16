@@ -35,7 +35,7 @@ If you need to change the encryption key after instantiation call `set_key` pass
   cape.set_key("YOUR-ENCRYPTION-KEY", 19);
 ```
 ### Compatible implementations
-- [cape-js](https://github.com/eldisniper/cape-js) Javascript port developed by eldisniper.
+- [cape-js](https://github.com/eldisniper/cape-js) Javascript port developed by eldisniper
 - [Cape.py](https://github.com/colinta/Cape.py) Python port developed by colinta
 
 ### License
