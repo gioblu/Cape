@@ -34,8 +34,9 @@ If you need to change the encryption key after instantiation call `set_key` pass
 ```cpp  
   cape.set_key("YOUR-ENCRYPTION-KEY", 19);
 ```
-
-If you need to run Cape on a real time operative system use [cape-js](https://github.com/eldisniper/cape-js) developed by eldisniper.
+### Compatible implementations
+- [cape-js](https://github.com/eldisniper/cape-js) Javascript port developed by eldisniper.
+- [Cape.py](https://github.com/colinta/Cape.py) Python port developed by colinta
 
 ### License
 
