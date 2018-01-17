@@ -43,7 +43,7 @@ If you need to change the encryption key after instantiation call `set_key` pass
 - [Cape.py](https://github.com/colinta/Cape.py) Python port developed by colinta
 
 ### Contribute
-Feel free to open an issue or to send a pull request, changes affecting both algorithm and implementation can be proposed and are be evaluated. If you have detected a vulnerability, act ethically, share your discovery with the community **immediately**.  Thank you for your support.
+Feel free to open an issue or to send a pull request, changes affecting both algorithm and implementation can be proposed and are evaluated. If you have detected a vulnerability, act ethically, share your discovery with the community **immediately**.  Thank you for your support.
 
 ### License
 
