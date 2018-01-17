@@ -46,19 +46,20 @@ To better understand the encryption strength provided by each method and configu
 | Function | Key | Salt     |Str.    |
 |__________|_____|__________|________|
 |          |     |          | STRONG |
-|Encrypt   | LTD | variable | 8      |
-|Encrypt   | STD | variable | 7      |
-|Encrypt   | LTD | fixed    | 6      |
-|Encrypt   | STD | fixed    | 5      |
+| Encrypt  | LTD | variable | 8      |
+| Encrypt  | STD | variable | 7      |
+| Encrypt  | LTD | fixed    | 6      |
+| Encrypt  | STD | fixed    | 5      |
 |----------|-----|--------=-|--------|
-|Hash      | LTD | variable | 4      |
-|Hash      | STD | variable | 3      |
-|Hash      | LTD | fixed    | 2      |
-|Hash      | STD | fixed    | 1      |
+| Hash     | LTD | variable | 4      |
+| Hash     | STD | variable | 3      |
+| Hash     | LTD | fixed    | 2      |
+| Hash     | STD | fixed    | 1      |
 |          |     |          | WEAK   |
 |__________|_____|__________|________|
 ```
-* `STD` key Shorter Than Data / `LTD` key Longer Than Data
+* `STD`: key Shorter Than Data
+* `LTD`: key Longer Than Data
 
 ### Compatible implementations
 - [cape-js](https://github.com/eldisniper/cape-js) Javascript port developed by eldisniper
