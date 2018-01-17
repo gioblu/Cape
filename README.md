@@ -42,22 +42,23 @@ If you need to change the encryption key after instantiation call `set_key` pass
 ### Encryption strength
 To better understand the encryption strength provided by each method and configuration see the table below:
 ```cpp
- ______________________________________________
-|Function |Key length        |Salt     |Str.   |
-|_________|__________________|_________|_______|
-|         |                  |         |STRONG |
-|Encrypt  |longer than data  |variable |8      |
-|Encrypt  |shorter than data |variable |7      |
-|Encrypt  |longer than data  |fixed    |6      |
-|Encrypt  |shorter than data |fixed    |5      |
-|---------|------------------|---------|-------|
-|Hash     |longer than data  |variable |4      |
-|Hash     |shorter than data |variable |3      |
-|Hash     |longer than data  |fixed    |2      |
-|Hash     |shorter than data |fixed    |1      |
-|         |                  |         |WEAK   |
-|_________|__________________|_________|_______|
+ ____________________________________
+| Function | Key | Salt     |Str.    |
+|__________|_____|__________|________|
+|          |     |          | STRONG |
+|Encrypt   | LTD | variable | 8      |
+|Encrypt   | STD | variable | 7      |
+|Encrypt   | LTD | fixed    | 6      |
+|Encrypt   | STD | fixed    | 5      |
+|----------|-----|--------=-|--------|
+|Hash      | LTD | variable | 4      |
+|Hash      | STD | variable | 3      |
+|Hash      | LTD | fixed    | 2      |
+|Hash      | STD | fixed    | 1      |
+|          |     |          | WEAK   |
+|__________|_____|__________|________|
 ```
+* `STD` key Shorter Than Data / `LTD` key Longer Than Data
 
 ### Compatible implementations
 - [cape-js](https://github.com/eldisniper/cape-js) Javascript port developed by eldisniper
