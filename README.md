@@ -7,13 +7,14 @@ If you agree with the statement "Don't roll your own crypto" you should not use 
 2. Better not to look into crypto and use alternatives developed by intelligence agencies
 
 ### How to use Cape
-Instantiate Cape passing the encryption key, its length and optionally the salt. The longer is the key the higher is the coverage `Cape` can offer. To have an acceptable level of security the encryption key should always be at least as long as the maximum data length transmitted. Adding salt higher data security, enabling to keep the same private key for a longer time, exchanging a new common salt once in a while if necessary. Salt must be exchanged encrypted (never transmit salt data in plain text).
+Instantiate Cape passing the encryption key, its length and optionally the salt. The longer is the key the higher is the encryption strength. Encryption key must be kept secret and never transmitted, generated salt instead can be exchanged only if encrypted.
 ```cpp  
   // Instance name - Private key - Length
   Cape cape("YOUR-ENCRYPTION-KEY", 19);
   // Optional Public salt (to be shared encrypted)
   cape.salt = "S";                      
 ```
+Adding salt higher data security, supporting the same private key usage for a longer time, exchanging a new salt once in a while if necessary.
 To hash data call `hash` passing the data source buffer, the destination buffer and the data length:
 ```cpp  
   char source[] = "CRYPTMEPLEASE";
@@ -38,6 +39,26 @@ If you need to change the encryption key after instantiation call `set_key` pass
 ```cpp  
   cape.set_key("YOUR-ENCRYPTION-KEY", 19);
 ```
+### Encryption strength
+To better understand the encryption strength provided by each method and configuration see the table below:
+```cpp  
+  _______________________________________________________________
+ | Function | Key length                   | Salt     | Strength |
+ |_________ |______________________________|__________|__________|
+ |          |                              |          | STRONG   |
+ | Encrypt  | key: longer than plain text  | variable | 8        |
+ | Encrypt  | key: shorter than plain text | variable | 7        |
+ | Encrypt  | key: longer than plain text  | fixed    | 6        |
+ | Encrypt  | key: shorter than plain text | fixed    | 5        |
+ |----------|------------------------------|----------|----------|
+ | Hash     | key: longer than plain text  | variable | 4        |
+ | Hash     | key: shorter than plain text | variable | 3        |
+ | Hash     | key: longer than plain text  | fixed    | 2        |
+ | Hash     | key: shorter than plain text | fixed    | 1        |
+ |          |                              |          | WEAK     |
+ |__________|______________________________|__________|__________|
+```
+
 ### Compatible implementations
 - [cape-js](https://github.com/eldisniper/cape-js) Javascript port developed by eldisniper
 - [Cape.py](https://github.com/colinta/Cape.py) Python port developed by colinta
