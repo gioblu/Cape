@@ -41,22 +41,22 @@ If you need to change the encryption key after instantiation call `set_key` pass
 ```
 ### Encryption strength
 To better understand the encryption strength provided by each method and configuration see the table below:
-```cpp  
- ____________________________________________________________
-|Function | Key length                   |Salt     |Strength |
-|_________|______________________________|_________|_________|
-|         |                              |         | STRONG  |
-| Encrypt | key: longer than plain text  |variable | 8       |
-| Encrypt | key: shorter than plain text |variable | 7       |
-| Encrypt | key: longer than plain text  |fixed    | 6       |
-| Encrypt | key: shorter than plain text |fixed    | 5       |
-| --------|------------------------------|---------|---------|
-| Hash    | key: longer than plain text  |variable | 4       |
-| Hash    | key: shorter than plain text |variable | 3       |
-| Hash    | key: longer than plain text  |fixed    | 2       |
-| Hash    | key: shorter than plain text |fixed    | 1       |
-|         |                              |         | WEAK    |
-|_________|______________________________|_________|_________|
+```cpp
+ ________________________________________________________
+|Function | Key length             | Salt     | Strength |
+|_________|________________________|__________|__________|
+|         |                        |          | STRONG   |
+| Encrypt | key: longer than data  | variable | 8        |
+| Encrypt | key: shorter than data | variable | 7        |
+| Encrypt | key: longer than data  | fixed    | 6        |
+| Encrypt | key: shorter than data | fixed    | 5        |
+|---------|------------------------|----------|----------|
+| Hash    | key: longer than data  | variable | 4        |
+| Hash    | key: shorter than data | variable | 3        |
+| Hash    | key: longer than data  | fixed    | 2        |
+| Hash    | key: shorter than data | fixed    | 1        |
+|         |                        |          | WEAK     |
+|_________|________________________|__________|__________|
 ```
 
 ### Compatible implementations
