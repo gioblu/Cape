@@ -4,7 +4,7 @@ Cape implements a new, private key, public salt, xor based, symmetric stream cip
 
 If you agree with the statement "Don't roll your own crypto" you should not use Cape for the following 2 reasons:
 1. Cape is developed by passionate experimenters rolling their own crypto
-2. Better not to try to understand crypto and use alternatives developed by intelligence agencies
+2. Better not to look into crypto and use alternatives developed by intelligence agencies
 
 ### How to use Cape
 Instantiate Cape passing the encryption key, its length and optionally the salt. The longer is the key the higher is the coverage `Cape` can offer. To have an acceptable level of security the encryption key should always be at least as long as the maximum data length transmitted. Adding salt higher data security, enabling to keep the same private key for a longer time, exchanging a new common salt once in a while if necessary. Salt must be exchanged encrypted (never transmit salt data in plain text).
