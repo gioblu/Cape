@@ -3,7 +3,7 @@
    |      |_____| |_____| |_____      |
    |_____ |     | |       |_____ ____ |_____  version 2.0
 
-Cape Copyright (c) 2012-2017, Giovanni Blu Mitolo All rights reserved.
+Cape Copyright © 2012-2018, Giovanni Blu Mitolo All rights reserved.
 
 Cape implementation optimized by Pharap github user
 Cape implementation ported in c and python by colinta github user
