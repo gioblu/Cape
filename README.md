@@ -2,9 +2,9 @@ Cape 2.0
 ====
 Cape implements a new, private key, public salt, xor based, symmetric stream cipher along with a pseudo-random initialization vector asymmetric encryption algorithm, both originally developed to offer data security on limited microcontrollers.
 
-If you agree with the statement "Don't roll your own crypto" you should not use Cape for the following 2 reasons:
+If you agree on the statement "Don't roll your own crypto" you should not use Cape for the following 2 reasons:
 1. Cape is developed by passionate experimenters rolling their own crypto
-2. Better not to look into crypto and use alternatives developed by intelligence agencies
+2. Better not to look into crypto and use software developed by intelligence agencies
 
 ### How to use Cape
 Instantiate Cape passing the encryption key, its length and optionally the salt. The longer is the key the higher is the encryption strength. Encryption key must be kept secret and never transmitted, generated salt instead can be exchanged only if encrypted.
@@ -43,7 +43,7 @@ If you need to change the encryption key after instantiation call `set_key` pass
 To better understand the encryption strength provided by each method and configuration see the table below:
 ```cpp
  ____________________________________
-| Function | Key | Salt     |Str.    |
+| Function | Key | Salt     | Str.   |
 |__________|_____|__________|________|
 |          |     |          | STRONG |
 | Encrypt  | LTD | variable | 8      |
@@ -58,15 +58,15 @@ To better understand the encryption strength provided by each method and configu
 |          |     |          | WEAK   |
 |__________|_____|__________|________|
 ```
-* `STD`: key Shorter Than Data
-* `LTD`: key Longer Than Data
+* `STD`: using key Shorter Than Data
+* `LTD`: using key Longer Than Data
 
 ### Compatible implementations
 - [cape-js](https://github.com/eldisniper/cape-js) Javascript port developed by eldisniper
 - [Cape.py](https://github.com/colinta/Cape.py) Python port developed by colinta
 
 ### Contribute
-Feel free to open an issue or to send a pull request, changes affecting both algorithm and implementation can be proposed and are evaluated. If you have detected a vulnerability, act ethically, share your discovery with the community **immediately**.  Thank you for your support.
+Feel free to open an issue or to send a pull request, changes affecting both algorithm and implementation can be proposed and are evaluated. If you have detected a vulnerability, act ethically and share **immediately** your discovery with the community. Thank you for your support.
 
 ### License
 
