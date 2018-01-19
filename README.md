@@ -61,9 +61,11 @@ To better understand the encryption strength provided by each method and configu
 * `STD`: using key Shorter Than Data
 * `LTD`: using key Longer Than Data
 
-### Compatible implementations
-- [cape-js](https://github.com/eldisniper/cape-js) Javascript port developed by eldisniper
-- [Cape.py](https://github.com/colinta/Cape.py) Python port developed by colinta
+### Ports developed by contributors
+- [cape-js](https://github.com/eldisniper/cape-js) javascript port by eldisniper
+- [Cape.py](https://github.com/colinta/Cape.py) python port by by colinta
+- [CapeDotNet](https://github.com/Pharap/CapeDotNet) C# port by Pharap
+- [CapeHaskell](https://github.com/Pharap/CapeHaskell) Haskell port by Pharap
 
 ### Contribute
 Feel free to open an issue or to send a pull request, changes affecting both algorithm and implementation can be proposed and are evaluated. If you have detected a vulnerability, act ethically and share **immediately** your discovery with the community. Thank you for your support.
