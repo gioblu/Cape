@@ -1,4 +1,4 @@
-Cape 2.0
+Cape 3.0
 ====
 Cape implements a new, private key, public salt, xor based, symmetric stream cipher along with a pseudo-random initialization vector asymmetric encryption algorithm, both originally developed to offer data security on limited microcontrollers.
 
@@ -73,7 +73,7 @@ Feel free to open an issue or to send a pull request, changes affecting both alg
 ```cpp  
 /*  _____  _____   _____   _____
    |      |_____| |_____| |_____
-   |_____ |     | |       |_____  version 2.0
+   |_____ |     | |       |_____  version 3.0
 
 Cape Copyright © 2012-2018, Giovanni Blu Mitolo All rights reserved.
 

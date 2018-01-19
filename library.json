@@ -1,6 +1,6 @@
 {
   "name": "Cape",
-  "description": "Cape is a string encryption library developed to offer efficient encryption on small microcontrollers.",
+  "description": "Cape is a string encryption library developed to offer efficient encryption on limited microcontrollers.",
   "keywords": "encryption",
   "authors":
   {
@@ -12,7 +12,7 @@
     "type": "git",
     "url": "https://github.com/gioblu/Cape.git"
   },
-  "version": "2.0",
+  "version": "3.0",
   "frameworks": "arduino",
   "platforms":  [
     "atmelavr",
