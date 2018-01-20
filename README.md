@@ -2,6 +2,8 @@ Cape 3.0
 ====
 Cape implements a new, private key, public salt, xor based, symmetric stream cipher along with a pseudo-random initialization vector asymmetric encryption algorithm, both originally developed to offer data security on limited microcontrollers.
 
+Cape is an experimental project and should be used for research and educational purposes and should not be applied in production.
+
 If you agree on the statement "Don't roll your own crypto" you should not use Cape for the following 2 reasons:
 1. Cape is developed by passionate experimenters rolling their own crypto
 2. Better not to look into crypto and use software developed by intelligence agencies
