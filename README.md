@@ -2,14 +2,12 @@ Cape 3.0
 ====
 Cape implements a new, private key, public salt, xor based, symmetric stream cipher along with a pseudo-random initialization vector asymmetric encryption algorithm, both originally developed to offer data security on limited microcontrollers.
 
-Cape is an experimental project, should be used for research and educational purposes and should not be applied in production.
-
-Cape 3.0 has been posted on reddit/r/crypto to obtain feedback about its algorithm and great minds broke it in a matter of hours:
-- @rspencer01 deciphered data using brute force and some hints about its plaintext and exposed a full break of the algorithm
-- @silkeh exposed a known plaintext attack and poor performance of salt
+Cape is an experimental project, should be used for research and educational purposes and should not be applied in production. Cape 3.0 has been posted on reddit/r/crypto to obtain feedback about its algorithm and great minds broke it in a matter of hours:
+- rspencer01 deciphered data using brute force and some hints about its plaintext and exposed a full break of the algorithm
+- silkeh exposed a known plaintext attack and poor performance of salt
 See the extremely educational related [issue](https://github.com/gioblu/Cape/issues/17) and the [KnownPlainTextVulnerability example](https://github.com/gioblu/Cape/blob/master/examples/KnownPlainTextVulnerability/KnownPlainTextVulnerability.ino)
 
-If you would like to support us developing a new, more secure algorithm, feel free to tell us your thoughts opening an issue. 
+If you would like to support us developing a new, more secure algorithm, feel free to tell us your thoughts opening an issue.
 
 ### How to use Cape
 Instantiate Cape passing the encryption key, its length and optionally the salt. The longer is the key the higher is the encryption strength. Encryption key must be kept secret and never transmitted, generated salt instead can be exchanged only if encrypted.
