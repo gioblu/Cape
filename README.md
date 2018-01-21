@@ -5,9 +5,8 @@ Cape implements a new, private key, public salt, xor based, symmetric stream cip
 Cape is an experimental project, should be used for research and educational purposes and should not be applied in production. Cape 3.0 has been posted on reddit/r/crypto to obtain feedback about its algorithm and great minds broke it in a matter of hours:
 - rspencer01 exposed a full break of the algorithm using brute force and some hints about its plaintext
 - silkeh exposed a known plaintext attack and poor performance of salt
-See the extremely educational related [issue](https://github.com/gioblu/Cape/issues/17) and the [KnownPlainTextVulnerability example](https://github.com/gioblu/Cape/blob/master/examples/KnownPlainTextVulnerability/KnownPlainTextVulnerability.ino)
 
-If you would like to support us developing a new, more secure algorithm, feel free to tell us your thoughts opening an issue.
+See the extremely educational related [issue](https://github.com/gioblu/Cape/issues/17) and the [KnownPlainTextVulnerability](https://github.com/gioblu/Cape/blob/master/examples/KnownPlainTextVulnerability/KnownPlainTextVulnerability.ino) example
 
 ### How to use Cape
 Instantiate Cape passing the encryption key, its length and optionally the salt. The longer is the key the higher is the encryption strength. Encryption key must be kept secret and never transmitted, generated salt instead can be exchanged only if encrypted.
@@ -43,26 +42,7 @@ If you need to change the encryption key after instantiation call `set_key` pass
   cape.set_key("YOUR-ENCRYPTION-KEY", 19);
 ```
 ### Encryption strength
-To better understand the encryption strength provided by each method and configuration see the table below:
-```cpp
- ____________________________________
-| Function | Key | Salt     | Str.   |
-|__________|_____|__________|________|
-|          |     |          | STRONG |
-| Encrypt  | LTD | variable | 8      |
-| Encrypt  | STD | variable | 7      |
-| Encrypt  | LTD | fixed    | 6      |
-| Encrypt  | STD | fixed    | 5      |
-|----------|-----|--------=-|--------|
-| Hash     | LTD | variable | 4      |
-| Hash     | STD | variable | 3      |
-| Hash     | LTD | fixed    | 2      |
-| Hash     | STD | fixed    | 1      |
-|          |     |          | WEAK   |
-|__________|_____|__________|________|
-```
-* `STD`: using key Shorter Than Data
-* `LTD`: using key Longer Than Data
+After the support of expert cryptologists from [reddit/r/crypto](reddit/r/crypto), has been practically demonstrated that Cape v3.0 algorithm is weak and a full break is already publicly available.
 
 ### Ports developed by contributors
 - [cape-js](https://github.com/eldisniper/cape-js) javascript port by eldisniper
