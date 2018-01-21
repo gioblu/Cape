@@ -25,7 +25,7 @@ not be applied in production. */
 
 class Cape {
   public:
-    char salt; // Salt used for encryption (exchange encrypted)
+    unsigned char salt; // Salt used for encryption (exchange encrypted)
     /* Instantiate Cape passing a key, its length (max 65535) and salt: */
     Cape(char *key, uint16_t length, uint8_t s = 0) {
       salt = s;
@@ -46,7 +46,7 @@ class Cape {
     void decrypt(char *source, char *destination, uint16_t length) {
       uint16_t index = length - 1;
       // 1 Compute salty reduced key or srk
-      char srk = salt ^ _reduced_key;
+      unsigned char srk = salt ^ _reduced_key;
       // 2 Decrypt initialization vector and salty reduced key or srk
       uint8_t iv = source[index] ^ index ^ _key[(index ^ srk) % _key_length];
       // 3 Decrypt data with key, initialization vector and salty reduced key
@@ -63,7 +63,7 @@ class Cape {
       uint8_t iv
     ) {
       // 1 Compute salty reduced key or srk
-      char srk = salt ^ _reduced_key;
+      unsigned char srk = salt ^ _reduced_key;
       // 2 Encrypt initialization vector using key, salty reduced key or srk
       destination[length] = iv ^ length ^ _key[(length ^ srk) % _key_length];
       // 3 Encrypt data using key, initialization vector and salty reduced key
@@ -75,7 +75,7 @@ class Cape {
        (max 65535 characters) */
     void hash(char *source, char *destination, uint16_t length) {
       // 1 Compute salty reduced key or srk
-      char srk = salt ^ _reduced_key;
+      unsigned char srk = salt ^ _reduced_key;
       // 2 Hash data
       for(uint16_t i = 0; i < length; i++) {
         uint8_t srki = srk ^ i;
@@ -91,7 +91,7 @@ class Cape {
     };
 
   private:
-    char *   _key;           // Keep private and safe
-    uint16_t _key_length;    // Keep private and safe
-    char     _reduced_key;   // Keep private and safe
+    char *   _key;              // Keep private and safe
+    uint16_t _key_length;       // Keep private and safe
+    unsigned char _reduced_key; // Keep private and safe
 };
