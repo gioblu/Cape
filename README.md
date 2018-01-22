@@ -1,6 +1,6 @@
 Cape 3.0
 ====
-Cape implements a new, private key, public salt, xor based, symmetric stream cipher along with a pseudo-random initialization vector asymmetric encryption algorithm, both originally developed to offer data security on limited microcontrollers.
+Cape implements private key, public salt, xor based symmetric stream cipher developed to offer encryption on limited microcontrollers.
 
 Cape is an experimental project, should be used for research and educational purposes and should not be applied in production. Cape 3.0 has been posted on reddit/r/crypto to obtain feedback about its algorithm and great minds broke it in a matter of hours:
 - rspencer01 exposed a full break of the algorithm using brute force and some hints about its plaintext
