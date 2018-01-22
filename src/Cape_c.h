@@ -26,45 +26,55 @@ not be applied in production. */
 #pragma once
 
 typedef struct {
-  char salt;          // Salt used for encryption
-  char *key;          // Key
+  unsigned char salt;          // Salt used for encryption
+  unsigned char *key;          // Key
   uint16_t length;    // Keep these private and safe
-  char reduced_key;   // Computed reduced key
+  unsigned char reduced_key;   // Computed reduced key
 } cape_t;
 
-void cape_init(cape_t *cape, char *key, uint16_t length, uint8_t salt);
+void cape_init(
+  cape_t *cape,
+  unsigned char *key,
+  uint16_t length,
+  uint8_t salt
+);
 
 void cape_hash(
   cape_t *cape,
-  char *source,
-  char *destination,
+  unsigned char *source,
+  unsigned char *destination,
   uint16_t length
 );
 
 void cape_encrypt(
   cape_t *cape,
-  char *source,
-  char *destination,
+  unsigned char *source,
+  unsigned char *destination,
   uint16_t length,
   uint8_t iv
 );
 
 void cape_decrypt(
   cape_t *cape,
-  char *source,
-  char *destination,
+  unsigned char *source,
+  unsigned char *destination,
   uint16_t length
 );
 
 /* Compute a 1 byte version of the encryption key */
-char cape_compute_reduced_key(char *key, uint16_t length) {
-  char reduced_key = 0;
+char cape_compute_reduced_key(unsigned char *key, uint16_t length) {
+  unsigned char reduced_key = 0;
   for(uint16_t i = 0; i < length; i++) // Reduced key computation
     reduced_key ^= (key[i] << (i % 8));
   return reduced_key;
 };
 
-void cape_init(cape_t *cape, char *key, uint16_t length, uint8_t salt = 0) {
+void cape_init(
+  cape_t *cape,
+  unsigned char *key,
+  uint16_t length,
+  uint8_t salt = 0
+) {
   cape->salt = salt;
   cape->key = key;
   cape->length = length;
@@ -75,8 +85,8 @@ void cape_init(cape_t *cape, char *key, uint16_t length, uint8_t salt = 0) {
    (max 65534 characters) */
 void cape_decrypt(
   cape_t *cape,
-  char *source,
-  char *destination,
+  unsigned char *source,
+  unsigned char *destination,
   uint16_t length
 ) {
   uint16_t index = length - 1;
@@ -95,8 +105,8 @@ void cape_decrypt(
    algorithm (max 65534 characters):  */
 void cape_encrypt(
   cape_t *cape,
-  char *source,
-  char *destination,
+  unsigned char *source,
+  unsigned char *destination,
   uint16_t length,
   uint8_t iv
 ) {
@@ -115,8 +125,8 @@ void cape_encrypt(
    (max 65534 characters) */
 void cape_hash(
   cape_t *cape,
-  char *source,
-  char *destination,
+  unsigned char *source,
+  unsigned char *destination,
   uint16_t length
 ) {
   uint8_t srk = cape->salt ^ cape->reduced_key;

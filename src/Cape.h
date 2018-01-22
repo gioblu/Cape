@@ -27,7 +27,7 @@ class Cape {
   public:
     unsigned char salt; // Salt used for encryption (exchange encrypted)
     /* Instantiate Cape passing a key, its length (max 65535) and salt: */
-    Cape(char *key, uint16_t length, uint8_t s = 0) {
+    Cape(unsigned char *key, uint16_t length, uint8_t s = 0) {
       salt = s;
       _key = key;
       _key_length = length;
@@ -35,7 +35,7 @@ class Cape {
     };
 
     /* Compute a 1 byte version of the encryption key */
-    void compute_reduced_key(char *key, uint16_t length) {
+    void compute_reduced_key(unsigned char *key, uint16_t length) {
       _reduced_key = 0;
       // Reduced key computation
       for(uint16_t i = 0; i < length; i++)
@@ -43,7 +43,11 @@ class Cape {
     };
 
     /* Decrypt data: (max length 65535 characters) */
-    void decrypt(char *source, char *destination, uint16_t length) {
+    void decrypt(
+      unsigned char *source,
+      unsigned char *destination,
+      uint16_t length
+    ) {
       uint16_t index = length - 1;
       // 1 Compute salty reduced key or srk
       unsigned char srk = salt ^ _reduced_key;
@@ -57,8 +61,8 @@ class Cape {
     /* Stream cipher, private key, initialization vector based encryption
        algorithm (max length 65534 characters):  */
     void encrypt(
-      char *source,
-      char *destination,
+      unsigned char *source,
+      unsigned char *destination,
       uint16_t length,
       uint8_t iv
     ) {
@@ -73,7 +77,7 @@ class Cape {
 
     /* Symmetric cipher using private key and salty reduced key:
        (max 65535 characters) */
-    void hash(char *source, char *destination, uint16_t length) {
+    void hash(unsigned char *source, unsigned char *destination, uint16_t length) {
       // 1 Compute salty reduced key or srk
       unsigned char srk = salt ^ _reduced_key;
       // 2 Hash data
@@ -84,14 +88,14 @@ class Cape {
     };
 
     /* Set or Change encryption key (max 65534 characters): */
-    void set_key(char *key, uint16_t length) {
+    void set_key(unsigned char *key, uint16_t length) {
       _key = key;
       _key_length = length;
       compute_reduced_key(key, length);
     };
 
   private:
-    char *   _key;              // Keep private and safe
+    unsigned char *   _key;     // Keep private and safe
     uint16_t _key_length;       // Keep private and safe
     unsigned char _reduced_key; // Keep private and safe
 };
