@@ -6,7 +6,7 @@ Cape is an experimental project, should be used for research and educational pur
 - rspencer01 exposed a full break of the algorithm using brute force and some hints about its plaintext
 - silkeh exposed a known plaintext attack and poor performance of salt
 
-See the extremely educational related [issue](https://github.com/gioblu/Cape/issues/17) and the [KnownPlainTextVulnerability](https://github.com/gioblu/Cape/blob/master/examples/KnownPlainTextVulnerability/KnownPlainTextVulnerability.ino) example
+See the extremely educational related [issue](https://github.com/gioblu/Cape/issues/17), [KnownPlainTextVulnerability](https://github.com/gioblu/Cape/blob/master/examples/KnownPlainTextVulnerability/KnownPlainTextVulnerability.ino) and [ArduinoBruteForceKey](https://github.com/gioblu/Cape/blob/master/examples/ArduinoBruteForceKey/ArduinoBruteForceKey.ino) examples.
 
 ### How to use Cape
 Instantiate Cape passing the encryption key, its length and optionally the salt. The longer is the key the higher is the encryption strength. Encryption key must be kept secret and never transmitted, generated salt instead can be exchanged only if encrypted.
