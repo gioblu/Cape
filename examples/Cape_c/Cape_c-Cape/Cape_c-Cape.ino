@@ -6,11 +6,11 @@
 cape_t cape_data;
 
 // Encryption key (keep private and safe)
-char key[] = "9LKSUR&#5A";
+unsigned char key[] = "9LKSUR&#5A";
 // Source content to be crypted
-char source[] = "HELLOWORLD";
+unsigned char source[] = "HELLOWORLD";
 // Result buffer needs an additional byte for the initialization vector
-char destination[11];
+unsigned char destination[11];
 
 // Insert secret key and its length
 Cape cape(key, 10);
@@ -25,7 +25,7 @@ void setup() {
 void loop() {
   Serial.print("Encryption key: ");
   for(int i = 0; i < 10; i++)
-   Serial.print(key[i]);
+   Serial.print((char)key[i]);
   Serial.println();
 
   uint8_t salt = random(0, 255);
@@ -46,7 +46,7 @@ void loop() {
 
   Serial.print("CRIPTED:  ");
   for(int i = 0; i < 10; i++)
-    Serial.print(destination[i]);
+    Serial.print((char)destination[i]);
 
   Serial.print(" Computation time: ");
   Serial.print(time);
@@ -59,7 +59,7 @@ void loop() {
 
   Serial.print("ORIGINAL: ");
   for(int i = 0; i < 10; i++)
-    Serial.print(source[i]);
+    Serial.print((char)source[i]);
 
   Serial.print("   Real IV: ");
   Serial.print((uint8_t)source[11], DEC);
