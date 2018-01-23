@@ -8,6 +8,8 @@ Cape is an experimental project, should be used for research and educational pur
 
 See the extremely educational related [issue](https://github.com/gioblu/Cape/issues/17), [KnownPlainTextVulnerability](https://github.com/gioblu/Cape/blob/master/examples/KnownPlainTextVulnerability/KnownPlainTextVulnerability.ino) and [ArduinoBruteForceKey](https://github.com/gioblu/Cape/blob/master/examples/ArduinoBruteForceKey/ArduinoBruteForceKey.ino) examples.
 
+Cape algorithm is weak because has been engineered not taking in consideration enough the [Kerckhoff's principle](https://en.wikipedia.org/wiki/Kerckhoffs%27s_principle) or "one ought to design systems under the assumption that the enemy will immediately gain full familiarity with them" in contrast to the "security through obscurity" principle that is obviously not applicable to open-source software. Furthermore, has not been considered the possibility that an attacker could constrain the necessary time to brute force the key used having partial hints about its plain text content (known plain text vulnerability). Further study will be done to determine the feasibility of a new, more secure encryption algorithm to be applied in this library.
+
 ### How to use Cape
 Instantiate Cape passing the encryption key, its length and optionally the salt. The longer is the key the higher is the encryption strength. Encryption key must be kept secret and never transmitted, generated salt instead can be exchanged only if encrypted.
 ```cpp  
