@@ -6,18 +6,18 @@
 # Datatypes (KEYWORD1)
 #######################################
 
-Cape  KEYWORD1
+Cape	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
 
 
-hash            KEYWORD2
-decrypt         KEYWORD2
-encrypt         KEYWORD2
-salt            KEYWORD2
-set_key         KEYWORD2
+hash	KEYWORD2
+decrypt	KEYWORD2
+encrypt	KEYWORD2
+salt	KEYWORD2
+set_key	KEYWORD2
 
 #######################################
 # Instances (KEYWORD2)
